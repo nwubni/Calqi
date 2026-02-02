@@ -1,6 +1,6 @@
-#include <deque>
+#include <algorithm>
 #include <iostream>
-#include <stack>
+#include <vector>
 
 int add(int a, int b) { return a + b; }
 
@@ -16,8 +16,8 @@ int divide(int a, int b) {
   return a / b;
 }
 
-void parseExpression(const std::string &expression, std::deque<int> &numbers,
-                     std::deque<char> &operators) {
+void parseExpression(const std::string &expression, std::vector<int> &numbers,
+                     std::vector<char> &operators) {
   std::string number{};
   char previousCharacter{};
 
@@ -47,13 +47,16 @@ void parseExpression(const std::string &expression, std::deque<int> &numbers,
 
   if (!number.empty())
     numbers.push_back(std::stoi(number));
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
 }
 
 bool isAdditionOrSubtraction(char op) { return op == '+' || op == '-'; }
 
 bool isMultiplicationOrDivision(char op) { return op == '*' || op == '/'; }
 
-int evaluate(std::deque<int> &numbers, std::deque<char> &operators) {
+int evaluate(std::vector<int> &numbers, std::vector<char> &operators) {
   if (numbers.empty())
     return 0;
 
@@ -61,72 +64,72 @@ int evaluate(std::deque<int> &numbers, std::deque<char> &operators) {
   int operand1{};
   int operand2{};
   int result{0};
-  std::stack<int> tempNumbers{};
-  std::stack<char> tempOperators{};
+  std::vector<int> tempNumbers{};
+  std::vector<char> tempOperators{};
 
   while (!numbers.empty() && !operators.empty()) {
     operand1 = 0;
 
     if (!numbers.empty()) {
-      operand1 = numbers.front();
-      numbers.pop_front();
+      operand1 = numbers.back();
+      numbers.pop_back();
     }
 
-    op = operators.front();
-    operators.pop_front();
+    op = operators.back();
+    operators.pop_back();
 
     if (!operators.empty() &&
-        ((op != '(' && operators.front() == '(') ||
+        ((op != '(' && operators.back() == '(') ||
          (isAdditionOrSubtraction(op) &&
-          isMultiplicationOrDivision(operators.front())))) {
-      tempNumbers.push(operand1);
-      tempOperators.push(op);
+          isMultiplicationOrDivision(operators.back())))) {
+      tempNumbers.push_back(operand1);
+      tempOperators.push_back(op);
       continue;
     }
 
-    while (!operators.empty() && operators.front() == '(') {
-      operators.pop_front();
+    while (!operators.empty() && operators.back() == '(') {
+      operators.pop_back();
     }
 
     operand2 = 0;
 
     if (!numbers.empty()) {
-      operand2 = numbers.front();
-      numbers.pop_front();
+      operand2 = numbers.back();
+      numbers.pop_back();
     }
 
     switch (op) {
     case '(':
       if (result != 0)
-        tempNumbers.push(result);
+        tempNumbers.push_back(result);
 
       if (operand2 != 0)
-        numbers.push_front(operand2);
+        numbers.push_back(operand2);
 
       if (operand1 != 0)
-        numbers.push_front(operand1);
+        numbers.push_back(operand1);
       continue;
     case ')':
       if (operand2 != 0)
-        numbers.push_front(operand2);
+        numbers.push_back(operand2);
 
       if (operand1 != 0)
-        numbers.push_front(operand1);
+        numbers.push_back(operand1);
 
       if (!tempNumbers.empty()) {
-        numbers.push_front(tempNumbers.top());
-        tempNumbers.pop();
+        numbers.push_back(tempNumbers.back());
+        tempNumbers.pop_back();
       }
 
       if (!tempOperators.empty()) {
-        operators.push_front(tempOperators.top());
-        tempOperators.pop();
+        operators.push_back(tempOperators.back());
+        tempOperators.pop_back();
       }
 
       if (operators.empty()) {
         while (!tempNumbers.empty()) {
-          numbers.push_front(tempNumbers.top());
-          tempNumbers.pop();
+          numbers.push_back(tempNumbers.back());
+          tempNumbers.pop_back();
         }
       }
 
@@ -148,23 +151,23 @@ int evaluate(std::deque<int> &numbers, std::deque<char> &operators) {
       return 0;
     }
 
-    numbers.push_front(result);
+    numbers.push_back(result);
     result = 0;
 
     while (!tempNumbers.empty()) {
-      numbers.push_front(tempNumbers.top());
-      tempNumbers.pop();
+      numbers.push_back(tempNumbers.back());
+      tempNumbers.pop_back();
     }
 
     while (!tempOperators.empty()) {
-      operators.push_front(tempOperators.top());
-      tempOperators.pop();
+      operators.push_back(tempOperators.back());
+      tempOperators.pop_back();
     }
   }
 
   if (!numbers.empty()) {
-    result = numbers.front();
-    numbers.pop_front();
+    result = numbers.back();
+    numbers.pop_back();
   }
 
   return result;
@@ -172,8 +175,8 @@ int evaluate(std::deque<int> &numbers, std::deque<char> &operators) {
 
 #ifndef TESTING
 int main() {
-  std::deque<int> numbers{};
-  std::deque<char> operators{};
+  std::vector<int> numbers{};
+  std::vector<char> operators{};
   std::string expression = "2((10)/(((2))))";
 
   parseExpression(expression, numbers, operators);
