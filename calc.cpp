@@ -19,6 +19,9 @@ int main(int arg, char **argv) {
       if (expression == "exit" || expression == "quit" || expression == "q")
         break;
 
+      numbers.clear();
+      operators.clear();
+
       parseExpression(expression, numbers, operators);
       result = evaluate(numbers, operators);
 
