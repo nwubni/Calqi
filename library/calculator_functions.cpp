@@ -1,60 +1,33 @@
-#include <algorithm>
+
 #include <iostream>
 #include <vector>
 
-int add(int a, int b) { return a + b; }
+#include "calculator_functions.h"
 
-int subtract(int a, int b) { return a - b; }
+int add(const int &a, const int &b) { return a + b; }
 
-int multiply(int a, int b) { return a * b; }
+int subtract(const int &a, const int &b) { return a - b; }
 
-int divide(int a, int b) {
+int multiply(const int &a, const int &b) { return a * b; }
+
+int divide(const int &a, const int &b) {
   if (b == 0) {
     std::cerr << "Error: Division by zero\n";
     return 0; // or handle error appropriately
   }
+
   return a / b;
 }
 
-void parseExpression(const std::string &expression, std::vector<int> &numbers,
-                     std::vector<char> &operators) {
-  std::string number{};
-  char previousCharacter{};
-
-  for (const char &ch : expression) {
-    if (std::isdigit(ch)) {
-      number += ch;
-      previousCharacter = ch;
-      continue;
-    }
-
-    if (ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '(' ||
-        ch == ')') {
-      if (!number.empty()) {
-        numbers.push_back(std::stoi(number));
-        number.clear();
-      }
-
-      if ((previousCharacter == ')' || std::isdigit(previousCharacter)) &&
-          ch == '(')
-        operators.push_back('*');
-
-      operators.push_back(ch);
-    }
-
-    previousCharacter = ch;
-  }
-
-  if (!number.empty())
-    numbers.push_back(std::stoi(number));
-
-  std::reverse(numbers.begin(), numbers.end());
-  std::reverse(operators.begin(), operators.end());
+bool isOperator(const char &c) {
+  return c == '+' || c == '-' || c == '*' || c == '/' || c == '(' || c == ')';
 }
 
-bool isAdditionOrSubtraction(char op) { return op == '+' || op == '-'; }
+bool isAdditionOrSubtraction(const char &op) { return op == '+' || op == '-'; }
 
-bool isMultiplicationOrDivision(char op) { return op == '*' || op == '/'; }
+bool isMultiplicationOrDivision(const char &op) {
+  return op == '*' || op == '/';
+}
 
 int evaluate(std::vector<int> &numbers, std::vector<char> &operators) {
   if (numbers.empty())
@@ -87,7 +60,10 @@ int evaluate(std::vector<int> &numbers, std::vector<char> &operators) {
       continue;
     }
 
-    while (!operators.empty() && operators.back() == '(') {
+    while (
+        !operators.empty() &&
+        operators.back() ==
+            '(') { // Advance to the innermost expression in nested parentheses
       operators.pop_back();
     }
 
@@ -108,6 +84,7 @@ int evaluate(std::vector<int> &numbers, std::vector<char> &operators) {
 
       if (operand1 != 0)
         numbers.push_back(operand1);
+
       continue;
     case ')':
       if (operand2 != 0)
@@ -172,19 +149,3 @@ int evaluate(std::vector<int> &numbers, std::vector<char> &operators) {
 
   return result;
 }
-
-#ifndef TESTING
-int main() {
-  std::vector<int> numbers{};
-  std::vector<char> operators{};
-  std::string expression = "2((10)/(((2))))";
-
-  parseExpression(expression, numbers, operators);
-
-  int result = evaluate(numbers, operators);
-
-  std::cout << "\nResult: " << result << "\n";
-
-  return 0;
-}
-#endif

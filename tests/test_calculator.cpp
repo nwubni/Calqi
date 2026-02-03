@@ -1,16 +1,10 @@
 #include <algorithm>
 #include <cassert>
 #include <iostream>
-#include <string>
 #include <vector>
 
-int add(int a, int b);
-int subtract(int a, int b);
-int multiply(int a, int b);
-int divide(int a, int b);
-void parseExpression(const std::string &expression, std::vector<int> &numbers,
-                     std::vector<char> &operators);
-int evaluate(std::vector<int> &numbers, std::vector<char> &operators);
+#include "../parsers/calculator_parser.h"
+#include "../library/calculator_functions.h"
 
 void test_evaluate_empty_vectors() {
   // Expression: (empty)
