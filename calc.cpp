@@ -2,24 +2,35 @@
 #include <iostream>
 #include <vector>
 
-#include "parsers/calculator_parser.h"
 #include "library/calculator_functions.h"
+#include "parsers/calculator_parser.h"
 
-int main(int arg, char** argv) {
+int main(int arg, char **argv) {
+  std::vector<double> numbers{};
+  std::vector<std::string> operators{};
+  std::string expression{};
+  double result{};
+
   if (arg < 2) {
-    std::cerr << "Usage: " << argv[0] << " <expression>\n";
-    return 1;
+    while (true) {
+      std::cout << "> ";
+      std::getline(std::cin, expression);
+
+      if (expression == "exit" || expression == "quit" || expression == "q")
+        break;
+
+      parseExpression(expression, numbers, operators);
+      result = evaluate(numbers, operators);
+
+      std::cout << "\nAnswer: " << result << "\n";
+    }
+  } else {
+    expression = argv[1];
+    parseExpression(expression, numbers, operators);
+    result = evaluate(numbers, operators);
+
+    std::cout << "\nAnswer: " << result << "\n";
   }
-
-  std::vector<int> numbers{};
-  std::vector<char> operators{};
-  std::string expression = argv[1];
-
-  parseExpression(expression, numbers, operators);
-
-  int result = evaluate(numbers, operators);
-
-  std::cout << "\nAnswer: " << result << "\n";
 
   return 0;
 }

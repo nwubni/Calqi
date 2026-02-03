@@ -1,13 +1,14 @@
 #pragma once
 
 #include <iostream>
+#include <string>
 #include <vector>
 
-int add(const int &a, const int &b);
-int subtract(const int &a, const int &b);
-int multiply(const int &a, const int &b);
-int divide(const int &a, const int &b);
-bool isOperator(const char &c);
-bool isAdditionOrSubtraction(const char &op);
-bool isMultiplicationOrDivision(const char &op);
-int evaluate(std::vector<int> &numbers, std::vector<char> &operators);
+double add(const double &a, const double &b);
+double subtract(const double &a, const double &b);
+double multiply(const double &a, const double &b);
+double divide(const double &a, const double &b);
+bool isOperator(const std::string &op);
+bool isAdditionOrSubtraction(const std::string &op);
+bool isMultiplicationOrDivision(const std::string &op);
+double evaluate(std::vector<double> &numbers, std::vector<std::string> &operators);
