@@ -1,11 +1,11 @@
 #include <algorithm>
 #include <cassert>
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 
-#include "../parsers/calculator_parser.h"
 #include "../library/calculator_functions.h"
+#include "../parsers/calculator_parser.h"
 
 void test_evaluate_empty_vectors() {
   // Expression: (empty)
@@ -350,7 +350,8 @@ void test_evaluate_parenthesis_with_division() {
 void test_evaluate_deeply_nested_parenthesis() {
   // Expression: (((2+3)*4)-5)
   std::vector<double> numbers{2, 3, 4, 5};
-  std::vector<std::string> operators{"(", "(", "(", "+", ")", "*", ")", "-", ")"};
+  std::vector<std::string> operators{"(", "(", "(", "+", ")",
+                                     "*", ")", "-", ")"};
 
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
@@ -378,7 +379,8 @@ void test_evaluate_parenthesis_mixed_precedence() {
 void test_evaluate_parenthesis_complex_nested() {
   // Expression: ((2+3)*(4-1))/5
   std::vector<double> numbers{2, 3, 4, 1, 5};
-  std::vector<std::string> operators{"(", "(", "+", ")", "*", "(", "-", ")", ")", "/"};
+  std::vector<std::string> operators{"(", "(", "+", ")", "*",
+                                     "(", "-", ")", ")", "/"};
 
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
@@ -444,7 +446,8 @@ void test_evaluate_sin_function() {
 
   double result = evaluate(numbers, operators);
   assert(result >= -0.001 && result <= 0.001); // sin(0) = 0
-  std::cout << "✓ test_evaluate_sin_function passed (result: " << result << ")\n";
+  std::cout << "✓ test_evaluate_sin_function passed (result: " << result
+            << ")\n";
 }
 
 void test_evaluate_cos_function() {
@@ -457,7 +460,8 @@ void test_evaluate_cos_function() {
 
   double result = evaluate(numbers, operators);
   assert(result >= 0.999 && result <= 1.001); // cos(0) = 1
-  std::cout << "✓ test_evaluate_cos_function passed (result: " << result << ")\n";
+  std::cout << "✓ test_evaluate_cos_function passed (result: " << result
+            << ")\n";
 }
 
 void test_evaluate_tan_function() {
@@ -470,7 +474,8 @@ void test_evaluate_tan_function() {
 
   double result = evaluate(numbers, operators);
   assert(result >= -0.001 && result <= 0.001); // tan(0) = 0
-  std::cout << "✓ test_evaluate_tan_function passed (result: " << result << ")\n";
+  std::cout << "✓ test_evaluate_tan_function passed (result: " << result
+            << ")\n";
 }
 
 void test_evaluate_asin_function() {
@@ -483,7 +488,8 @@ void test_evaluate_asin_function() {
 
   double result = evaluate(numbers, operators);
   assert(result >= -0.001 && result <= 0.001); // asin(0) = 0
-  std::cout << "✓ test_evaluate_asin_function passed (result: " << result << ")\n";
+  std::cout << "✓ test_evaluate_asin_function passed (result: " << result
+            << ")\n";
 }
 
 void test_evaluate_acos_function() {
@@ -496,7 +502,8 @@ void test_evaluate_acos_function() {
 
   double result = evaluate(numbers, operators);
   assert(result >= -0.001 && result <= 0.001); // acos(1) = 0
-  std::cout << "✓ test_evaluate_acos_function passed (result: " << result << ")\n";
+  std::cout << "✓ test_evaluate_acos_function passed (result: " << result
+            << ")\n";
 }
 
 void test_evaluate_atan_function() {
@@ -509,20 +516,22 @@ void test_evaluate_atan_function() {
 
   double result = evaluate(numbers, operators);
   assert(result >= -0.001 && result <= 0.001); // atan(0) = 0
-  std::cout << "✓ test_evaluate_atan_function passed (result: " << result << ")\n";
+  std::cout << "✓ test_evaluate_atan_function passed (result: " << result
+            << ")\n";
 }
 
 void test_evaluate_log_function() {
-  // Expression: log(2.718281828)
-  std::vector<double> numbers{2.718281828};
+  // Expression: log(100) - base-10 logarithm
+  std::vector<double> numbers{100};
   std::vector<std::string> operators{"log", "(", ")"};
 
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
   double result = evaluate(numbers, operators);
-  assert(result >= 0.999 && result <= 1.001); // log(e) ≈ 1
-  std::cout << "✓ test_evaluate_log_function passed (result: " << result << ")\n";
+  assert(result >= 1.999 && result <= 2.001); // log10(100) = 2
+  std::cout << "✓ test_evaluate_log_function passed (result: " << result
+            << ")\n";
 }
 
 void test_evaluate_ln_function() {
@@ -535,20 +544,8 @@ void test_evaluate_ln_function() {
 
   double result = evaluate(numbers, operators);
   assert(result >= 0.999 && result <= 1.001); // ln(e) ≈ 1
-  std::cout << "✓ test_evaluate_ln_function passed (result: " << result << ")\n";
-}
-
-void test_evaluate_log10_function() {
-  // Expression: log10(100)
-  std::vector<double> numbers{100};
-  std::vector<std::string> operators{"log10", "(", ")"};
-
-  std::reverse(numbers.begin(), numbers.end());
-  std::reverse(operators.begin(), operators.end());
-
-  double result = evaluate(numbers, operators);
-  assert(result >= 1.999 && result <= 2.001); // log10(100) = 2
-  std::cout << "✓ test_evaluate_log10_function passed (result: " << result << ")\n";
+  std::cout << "✓ test_evaluate_ln_function passed (result: " << result
+            << ")\n";
 }
 
 void test_evaluate_function_with_addition() {
@@ -561,7 +558,8 @@ void test_evaluate_function_with_addition() {
 
   double result = evaluate(numbers, operators);
   assert(result >= 0.009 && result <= 0.011); // 1 + cos(3) ≈ 0.01
-  std::cout << "✓ test_evaluate_function_with_addition passed (result: " << result << ")\n";
+  std::cout << "✓ test_evaluate_function_with_addition passed (result: "
+            << result << ")\n";
 }
 
 void test_evaluate_function_with_multiplication() {
@@ -574,7 +572,8 @@ void test_evaluate_function_with_multiplication() {
 
   double result = evaluate(numbers, operators);
   assert(result >= 1.99 && result <= 2.01); // 2 * sin(π/2) ≈ 2
-  std::cout << "✓ test_evaluate_function_with_multiplication passed (result: " << result << ")\n";
+  std::cout << "✓ test_evaluate_function_with_multiplication passed (result: "
+            << result << ")\n";
 }
 
 void test_evaluate_nested_functions() {
@@ -587,7 +586,8 @@ void test_evaluate_nested_functions() {
 
   double result = evaluate(numbers, operators);
   assert(result >= 0.54 && result <= 0.55); // cos(cos(0)) = cos(1) ≈ 0.5403
-  std::cout << "✓ test_evaluate_nested_functions passed (result: " << result << ")\n";
+  std::cout << "✓ test_evaluate_nested_functions passed (result: " << result
+            << ")\n";
 }
 
 void test_evaluate_function_in_parenthesis() {
@@ -600,7 +600,22 @@ void test_evaluate_function_in_parenthesis() {
 
   double result = evaluate(numbers, operators);
   assert(result >= 0.99 && result <= 1.01); // 2*sin(0)+1 = 2*0+1 = 1
-  std::cout << "✓ test_evaluate_function_in_parenthesis passed (result: " << result << ")\n";
+  std::cout << "✓ test_evaluate_function_in_parenthesis passed (result: "
+            << result << ")\n";
+}
+
+void test_evaluate_function_in_nested_parenthesis() {
+  // Expression (sin(0)+1)*2
+  std::vector<double> numbers{0, 1, 2};
+  std::vector<std::string> operators{"(", "sin", "(", ")", "+", ")", "*"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = evaluate(numbers, operators);
+  assert(result >= 1.99 && result <= 2.01); // (sin(0)+1)*2 = (0+1)*2 = 2
+  std::cout << "✓ test_evaluate_function_in_nested_parenthesis passed (result: "
+            << result << ")\n";
 }
 
 void test_evaluate_multiple_functions() {
@@ -613,20 +628,22 @@ void test_evaluate_multiple_functions() {
 
   double result = evaluate(numbers, operators);
   assert(result >= 0.99 && result <= 1.01); // sin(0)+cos(0) = 0+1 = 1
-  std::cout << "✓ test_evaluate_multiple_functions passed (result: " << result << ")\n";
+  std::cout << "✓ test_evaluate_multiple_functions passed (result: " << result
+            << ")\n";
 }
 
 void test_evaluate_log_with_operations() {
-  // Expression: 10+log(2.718281828)
+  // Expression: 10+ln(2.718281828)
   std::vector<double> numbers{10, 2.718281828};
-  std::vector<std::string> operators{"+", "log", "(", ")"};
+  std::vector<std::string> operators{"+", "ln", "(", ")"};
 
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
   double result = evaluate(numbers, operators);
-  assert(result >= 10.99 && result <= 11.01); // 10 + log(e) ≈ 11
-  std::cout << "✓ test_evaluate_log_with_operations passed (result: " << result << ")\n";
+  assert(result >= 10.99 && result <= 11.01); // 10 + ln(e) ≈ 11
+  std::cout << "✓ test_evaluate_log_with_operations passed (result: " << result
+            << ")\n";
 }
 
 int main() {
@@ -676,15 +693,15 @@ int main() {
   test_evaluate_atan_function();
   test_evaluate_log_function();
   test_evaluate_ln_function();
-  test_evaluate_log10_function();
   test_evaluate_function_with_addition();
   test_evaluate_function_with_multiplication();
   test_evaluate_nested_functions();
   test_evaluate_function_in_parenthesis();
+  test_evaluate_function_in_nested_parenthesis();
   test_evaluate_multiple_functions();
   test_evaluate_log_with_operations();
 
   std::cout << "\n✅ All tests completed!\n";
-  
+
   return 0;
 }

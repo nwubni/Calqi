@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-#include "../library/trigonometric_functions.h"
+#include "../library/math_functions.h"
 #include "../utilities/operator_list.h"
 #include "calculator_functions.h"
 
@@ -44,20 +44,20 @@ double evaluate(std::vector<double> &numbers,
   double operand1{};
   double operand2{};
   double result{0};
-  bool operand1Set{false};
-  bool operand2Set{false};
-  std::vector<double> tempNumbers{};
-  std::vector<std::string> tempOperators{};
+  bool operand1_set{false};
+  bool operand2_set{false};
+  std::vector<double> temp_numbers{};
+  std::vector<std::string> temp_operators{};
 
   while (!numbers.empty() && !operators.empty()) {
     /*std::cout << "\nTemp Numbers\n";
-    for (int i{0}; i < tempNumbers.size(); i++) {
-      std::cout << tempNumbers[i] << "\n";
+    for (int i{0}; i < temp_numbers.size(); i++) {
+      std::cout << temp_numbers[i] << "\n";
     }
 
     std::cout << "\nTemp Operators\n";
-    for (int i{0}; i < tempOperators.size(); i++) {
-      std::cout << tempOperators[i] << "\n";
+    for (int i{0}; i < temp_operators.size(); i++) {
+      std::cout << temp_operators[i] << "\n";
     }
 
     std::cout << "\nNumbers\n";
@@ -70,16 +70,17 @@ double evaluate(std::vector<double> &numbers,
       std::cout << operators[i] << "\n";
     }*/
 
-    operand1Set = false;
-    operand2Set = false;
+    operand1_set = false;
+    operand2_set = false;
     operand1 = 0;
 
     if (!numbers.empty()) {
       operand1 = numbers.back();
       numbers.pop_back();
-      operand1Set = true;
+      operand1_set = true;
     }
 
+    // Advance to the innermost expression to process nested parenthesis
     while (!operators.empty() && operators.back() == "(") {
       operators.pop_back();
     }
@@ -87,30 +88,33 @@ double evaluate(std::vector<double> &numbers,
     op = operators.back();
     operators.pop_back();
 
-    if (!trigonometricFunctions.contains(op) && !operators.empty() &&
-        trigonometricFunctions.contains(operators.back())) {
-      tempNumbers.push_back(operand1);
-      tempOperators.push_back(op);
+    if (!math_functions.contains(op) && !operators.empty() &&
+        math_functions.contains(operators.back())) {
+      temp_numbers.push_back(operand1);
+      temp_operators.push_back(op);
       continue;
     }
 
-    // Still working on functions and nested functions
-    if (trigonometricFunctions.contains(op) && !operators.empty() &&
+    // Processes functions and nested function calls
+    if (math_functions.contains(op) && !operators.empty() &&
         (operators.back() == "(" ||
-         trigonometricFunctions.contains(operators.back()))) {
+         math_functions.contains(operators.back()))) {
       numbers.push_back(operand1);
-      tempOperators.push_back(op);
+      temp_operators.push_back(op);
 
-      while (!operators.empty() && operators.back() == "(") {
+      while (!operators.empty() &&
+             operators.back() == "(") { // Advance to the innermost expression
+                                        // to process nested parenthesis
         operators.pop_back();
       }
 
-      while (!operators.empty() &&
-             trigonometricFunctions.contains(operators.back())) {
-        tempOperators.push_back(operators.back());
+      while (!operators.empty() && math_functions.contains(operators.back())) {
+        temp_operators.push_back(operators.back());
         operators.pop_back();
 
-        while (!operators.empty() && operators.back() == "(") {
+        while (!operators.empty() &&
+               operators.back() == "(") { // Advance to the innermost expression
+                                          // to process nested parenthesis
           operators.pop_back();
         }
       }
@@ -118,24 +122,9 @@ double evaluate(std::vector<double> &numbers,
       continue;
     }
 
-    /*if (!operators.empty() &&
-    trigonometricFunctions.contains(operators.back())) {
-      tempNumbers.push_back(operand1);
-      tempOperators.push_back(op);
-
-      continue;
-    }
-
-    if (trigonometricFunctions.contains(op) && (!operators.empty() &&
-    operators.back() == "(")) { numbers.push_back(operand1);
-      tempOperators.push_back(op);
-      continue;
-    }*/
-    // Still working on functions and nested functions
-
     if (op == "^" && (!operators.empty() && operators.back() == "(")) {
-      tempNumbers.push_back(operand1);
-      tempOperators.push_back(op);
+      temp_numbers.push_back(operand1);
+      temp_operators.push_back(op);
       continue;
     }
 
@@ -143,15 +132,14 @@ double evaluate(std::vector<double> &numbers,
         ((op != "(" && operators.back() == "(") ||
          (isAdditionOrSubtraction(op) &&
           isMultiplicationOrDivision(operators.back())))) {
-      tempNumbers.push_back(operand1);
-      tempOperators.push_back(op);
+      temp_numbers.push_back(operand1);
+      temp_operators.push_back(op);
       continue;
     }
 
-    while (
-        !operators.empty() &&
-        operators.back() ==
-            "(") { // Advance to the innermost expression in nested parentheses
+    while (!operators.empty() &&
+           operators.back() == "(") { // Advance to the innermost expression to
+                                      // process nested parenthesis
       operators.pop_back();
     }
 
@@ -160,39 +148,39 @@ double evaluate(std::vector<double> &numbers,
     if (!numbers.empty()) {
       operand2 = numbers.back();
       numbers.pop_back();
-      operand2Set = true;
+      operand2_set = true;
     }
 
-    if (trigonometricFunctions.contains(op)) {
+    if (math_functions.contains(op)) {
       numbers.push_back(operand2);
 
-      result = trigonometricFunctions.at(op)(operand1);
+      result = math_functions.at(op)(operand1);
 
-      while (!tempOperators.empty() &&
-             trigonometricFunctions.contains(
-                 tempOperators.back())) { // Handle nested function
-        result = trigonometricFunctions.at(tempOperators.back())(result);
-        tempOperators.pop_back();
+      while (!temp_operators.empty() &&
+             math_functions.contains(
+                 temp_operators.back())) { // Handle nested function
+        result = math_functions.at(temp_operators.back())(result);
+        temp_operators.pop_back();
       }
 
       numbers.push_back(result);
       result = 0;
 
       // Restore all pending numbers and operators from temp stacks
-      while (!tempNumbers.empty()) {
-        numbers.push_back(tempNumbers.back());
-        tempNumbers.pop_back();
+      while (!temp_numbers.empty()) {
+        numbers.push_back(temp_numbers.back());
+        temp_numbers.pop_back();
       }
 
-      while (!tempOperators.empty()) {
-        operators.push_back(tempOperators.back());
-        tempOperators.pop_back();
+      while (!temp_operators.empty()) {
+        operators.push_back(temp_operators.back());
+        temp_operators.pop_back();
       }
 
       continue;
     } else if (op == "(") {
       if (result != 0)
-        tempNumbers.push_back(result);
+        temp_numbers.push_back(result);
 
       if (operand2 != 0)
         numbers.push_back(operand2);
@@ -202,22 +190,21 @@ double evaluate(std::vector<double> &numbers,
 
       continue;
     } else if (op == ")") {
-      if (operand2Set)
+      if (operand2_set)
         numbers.push_back(operand2);
 
-      if (operand1Set)
+      if (operand1_set)
         numbers.push_back(operand1);
 
-      if (!tempOperators.empty()) {
-        operators.push_back(tempOperators.back());
-        tempOperators.pop_back();
+      if (!temp_operators.empty()) {
+        operators.push_back(temp_operators.back());
+        temp_operators.pop_back();
       }
 
-      if (!tempNumbers.empty() &&
-          (operators.empty() ||
-           !trigonometricFunctions.contains(operators.back()))) {
-        numbers.push_back(tempNumbers.back());
-        tempNumbers.pop_back();
+      if (!temp_numbers.empty() &&
+          (operators.empty() || !math_functions.contains(operators.back()))) {
+        numbers.push_back(temp_numbers.back());
+        temp_numbers.pop_back();
       }
 
       continue;
@@ -239,14 +226,14 @@ double evaluate(std::vector<double> &numbers,
     numbers.push_back(result);
     result = 0;
 
-    while (!tempNumbers.empty()) {
-      numbers.push_back(tempNumbers.back());
-      tempNumbers.pop_back();
+    while (!temp_numbers.empty()) {
+      numbers.push_back(temp_numbers.back());
+      temp_numbers.pop_back();
     }
 
-    while (!tempOperators.empty()) {
-      operators.push_back(tempOperators.back());
-      tempOperators.pop_back();
+    while (!temp_operators.empty()) {
+      operators.push_back(temp_operators.back());
+      temp_operators.pop_back();
     }
   }
 

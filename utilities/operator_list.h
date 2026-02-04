@@ -3,4 +3,4 @@
 #include <unordered_set>
 
 const std::unordered_set<std::string> operators = {
-    "+", "-", "*", "/", "^", "(", ")", "sin", "cos", "tan", "asin", "acos", "atan", "log", "log10", "ln"};
+    "+", "-", "*", "/", "^", "(", ")", "sin", "cos", "tan", "asin", "acos", "atan", "log", "ln"};

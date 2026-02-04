@@ -10,7 +10,7 @@ void parseExpression(const std::string &expression, std::vector<double> &numbers
                      std::vector<std::string> &operators) {
   std::string number{};
   std::string function{};
-  char previousCharacter{};
+  char previous_character{};
 
   for (const char &ch : expression) {
     if (ch == ' ')
@@ -18,13 +18,13 @@ void parseExpression(const std::string &expression, std::vector<double> &numbers
 
     if (std::isalpha(ch)) {
       function += ch;
-      previousCharacter = ch;
+      previous_character = ch;
       continue;
     }
 
     if (std::isdigit(ch) || ch == '.') {
       number += ch;
-      previousCharacter = ch;
+      previous_character = ch;
       continue;
     }
 
@@ -39,17 +39,17 @@ void parseExpression(const std::string &expression, std::vector<double> &numbers
         function.clear();
       }
 
-      if ((previousCharacter == ')' || std::isdigit(previousCharacter)) &&
+      if ((previous_character == ')' || std::isdigit(previous_character)) &&
           ch == '(')
         operators.push_back("*");
 
-      if (ch == previousCharacter && (ch == '-' || ch == '+' || ch == '*' || ch == '/' || ch == '^'))
+      if (ch == previous_character && (ch == '-' || ch == '+' || ch == '*' || ch == '/' || ch == '^'))
         continue;
 
         operators.push_back(std::string(1, ch));
     }
 
-    previousCharacter = ch;
+    previous_character = ch;
   }
 
   if (!number.empty())
