@@ -432,6 +432,203 @@ void test_evaluate_parenthesis_subtraction_division() {
       << result << ")\n";
 }
 
+// --- Trigonometric and Logarithmic Function Tests ---
+
+void test_evaluate_sin_function() {
+  // Expression: sin(0)
+  std::vector<double> numbers{0};
+  std::vector<std::string> operators{"sin", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = evaluate(numbers, operators);
+  assert(result >= -0.001 && result <= 0.001); // sin(0) = 0
+  std::cout << "✓ test_evaluate_sin_function passed (result: " << result << ")\n";
+}
+
+void test_evaluate_cos_function() {
+  // Expression: cos(0)
+  std::vector<double> numbers{0};
+  std::vector<std::string> operators{"cos", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = evaluate(numbers, operators);
+  assert(result >= 0.999 && result <= 1.001); // cos(0) = 1
+  std::cout << "✓ test_evaluate_cos_function passed (result: " << result << ")\n";
+}
+
+void test_evaluate_tan_function() {
+  // Expression: tan(0)
+  std::vector<double> numbers{0};
+  std::vector<std::string> operators{"tan", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = evaluate(numbers, operators);
+  assert(result >= -0.001 && result <= 0.001); // tan(0) = 0
+  std::cout << "✓ test_evaluate_tan_function passed (result: " << result << ")\n";
+}
+
+void test_evaluate_asin_function() {
+  // Expression: asin(0)
+  std::vector<double> numbers{0};
+  std::vector<std::string> operators{"asin", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = evaluate(numbers, operators);
+  assert(result >= -0.001 && result <= 0.001); // asin(0) = 0
+  std::cout << "✓ test_evaluate_asin_function passed (result: " << result << ")\n";
+}
+
+void test_evaluate_acos_function() {
+  // Expression: acos(1)
+  std::vector<double> numbers{1};
+  std::vector<std::string> operators{"acos", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = evaluate(numbers, operators);
+  assert(result >= -0.001 && result <= 0.001); // acos(1) = 0
+  std::cout << "✓ test_evaluate_acos_function passed (result: " << result << ")\n";
+}
+
+void test_evaluate_atan_function() {
+  // Expression: atan(0)
+  std::vector<double> numbers{0};
+  std::vector<std::string> operators{"atan", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = evaluate(numbers, operators);
+  assert(result >= -0.001 && result <= 0.001); // atan(0) = 0
+  std::cout << "✓ test_evaluate_atan_function passed (result: " << result << ")\n";
+}
+
+void test_evaluate_log_function() {
+  // Expression: log(2.718281828)
+  std::vector<double> numbers{2.718281828};
+  std::vector<std::string> operators{"log", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = evaluate(numbers, operators);
+  assert(result >= 0.999 && result <= 1.001); // log(e) ≈ 1
+  std::cout << "✓ test_evaluate_log_function passed (result: " << result << ")\n";
+}
+
+void test_evaluate_ln_function() {
+  // Expression: ln(2.718281828)
+  std::vector<double> numbers{2.718281828};
+  std::vector<std::string> operators{"ln", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = evaluate(numbers, operators);
+  assert(result >= 0.999 && result <= 1.001); // ln(e) ≈ 1
+  std::cout << "✓ test_evaluate_ln_function passed (result: " << result << ")\n";
+}
+
+void test_evaluate_log10_function() {
+  // Expression: log10(100)
+  std::vector<double> numbers{100};
+  std::vector<std::string> operators{"log10", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = evaluate(numbers, operators);
+  assert(result >= 1.999 && result <= 2.001); // log10(100) = 2
+  std::cout << "✓ test_evaluate_log10_function passed (result: " << result << ")\n";
+}
+
+void test_evaluate_function_with_addition() {
+  // Expression: 1+cos(3)
+  std::vector<double> numbers{1, 3};
+  std::vector<std::string> operators{"+", "cos", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = evaluate(numbers, operators);
+  assert(result >= 0.009 && result <= 0.011); // 1 + cos(3) ≈ 0.01
+  std::cout << "✓ test_evaluate_function_with_addition passed (result: " << result << ")\n";
+}
+
+void test_evaluate_function_with_multiplication() {
+  // Expression: 2*sin(1.5708)
+  std::vector<double> numbers{2, 1.5708};
+  std::vector<std::string> operators{"*", "sin", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = evaluate(numbers, operators);
+  assert(result >= 1.99 && result <= 2.01); // 2 * sin(π/2) ≈ 2
+  std::cout << "✓ test_evaluate_function_with_multiplication passed (result: " << result << ")\n";
+}
+
+void test_evaluate_nested_functions() {
+  // Expression: cos(cos(0))
+  std::vector<double> numbers{0};
+  std::vector<std::string> operators{"cos", "(", "cos", "(", ")", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = evaluate(numbers, operators);
+  assert(result >= 0.54 && result <= 0.55); // cos(cos(0)) = cos(1) ≈ 0.5403
+  std::cout << "✓ test_evaluate_nested_functions passed (result: " << result << ")\n";
+}
+
+void test_evaluate_function_in_parenthesis() {
+  // Expression: 2*sin(0)+1
+  std::vector<double> numbers{2, 0, 1};
+  std::vector<std::string> operators{"*", "sin", "(", ")", "+"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = evaluate(numbers, operators);
+  assert(result >= 0.99 && result <= 1.01); // 2*sin(0)+1 = 2*0+1 = 1
+  std::cout << "✓ test_evaluate_function_in_parenthesis passed (result: " << result << ")\n";
+}
+
+void test_evaluate_multiple_functions() {
+  // Expression: sin(0)+cos(0)
+  std::vector<double> numbers{0, 0};
+  std::vector<std::string> operators{"sin", "(", ")", "+", "cos", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = evaluate(numbers, operators);
+  assert(result >= 0.99 && result <= 1.01); // sin(0)+cos(0) = 0+1 = 1
+  std::cout << "✓ test_evaluate_multiple_functions passed (result: " << result << ")\n";
+}
+
+void test_evaluate_log_with_operations() {
+  // Expression: 10+log(2.718281828)
+  std::vector<double> numbers{10, 2.718281828};
+  std::vector<std::string> operators{"+", "log", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = evaluate(numbers, operators);
+  assert(result >= 10.99 && result <= 11.01); // 10 + log(e) ≈ 11
+  std::cout << "✓ test_evaluate_log_with_operations passed (result: " << result << ")\n";
+}
+
 int main() {
   std::cout << "Running unit tests for evaluate function...\n\n";
 
@@ -469,6 +666,23 @@ int main() {
   test_evaluate_parenthesis_single_number();
   test_evaluate_parenthesis_consecutive_groups();
   test_evaluate_parenthesis_subtraction_division();
+
+  std::cout << "\n--- Trigonometric and Logarithmic Function Tests ---\n";
+  test_evaluate_sin_function();
+  test_evaluate_cos_function();
+  test_evaluate_tan_function();
+  test_evaluate_asin_function();
+  test_evaluate_acos_function();
+  test_evaluate_atan_function();
+  test_evaluate_log_function();
+  test_evaluate_ln_function();
+  test_evaluate_log10_function();
+  test_evaluate_function_with_addition();
+  test_evaluate_function_with_multiplication();
+  test_evaluate_nested_functions();
+  test_evaluate_function_in_parenthesis();
+  test_evaluate_multiple_functions();
+  test_evaluate_log_with_operations();
 
   std::cout << "\n✅ All tests completed!\n";
   

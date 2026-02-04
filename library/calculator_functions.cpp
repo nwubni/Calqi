@@ -1,5 +1,6 @@
 
 #include <cmath>
+#include <iomanip>
 #include <iostream>
 #include <vector>
 
@@ -43,6 +44,8 @@ double evaluate(std::vector<double> &numbers,
   double operand1{};
   double operand2{};
   double result{0};
+  bool operand1Set{false};
+  bool operand2Set{false};
   std::vector<double> tempNumbers{};
   std::vector<std::string> tempOperators{};
 
@@ -67,11 +70,18 @@ double evaluate(std::vector<double> &numbers,
       std::cout << operators[i] << "\n";
     }*/
 
+    operand1Set = false;
+    operand2Set = false;
     operand1 = 0;
 
     if (!numbers.empty()) {
       operand1 = numbers.back();
       numbers.pop_back();
+      operand1Set = true;
+    }
+
+    while (!operators.empty() && operators.back() == "(") {
+      operators.pop_back();
     }
 
     op = operators.back();
@@ -150,6 +160,7 @@ double evaluate(std::vector<double> &numbers,
     if (!numbers.empty()) {
       operand2 = numbers.back();
       numbers.pop_back();
+      operand2Set = true;
     }
 
     if (trigonometricFunctions.contains(op)) {
@@ -167,6 +178,17 @@ double evaluate(std::vector<double> &numbers,
       numbers.push_back(result);
       result = 0;
 
+      // Restore all pending numbers and operators from temp stacks
+      while (!tempNumbers.empty()) {
+        numbers.push_back(tempNumbers.back());
+        tempNumbers.pop_back();
+      }
+
+      while (!tempOperators.empty()) {
+        operators.push_back(tempOperators.back());
+        tempOperators.pop_back();
+      }
+
       continue;
     } else if (op == "(") {
       if (result != 0)
@@ -180,10 +202,10 @@ double evaluate(std::vector<double> &numbers,
 
       continue;
     } else if (op == ")") {
-      // if (operand2 != 0)
+      if (operand2Set)
         numbers.push_back(operand2);
 
-      // if (operand1 != 0)
+      if (operand1Set)
         numbers.push_back(operand1);
 
       if (!tempOperators.empty()) {
@@ -197,13 +219,6 @@ double evaluate(std::vector<double> &numbers,
         numbers.push_back(tempNumbers.back());
         tempNumbers.pop_back();
       }
-
-      /*if (operators.empty()) {
-        while (!tempNumbers.empty()) {
-          numbers.push_back(tempNumbers.back());
-          tempNumbers.pop_back();
-        }
-      }*/
 
       continue;
     } else if (op == "+") {
