@@ -1,5 +1,7 @@
 #include <algorithm>
 #include <iostream>
+#include <readline/history.h>
+#include <readline/readline.h>
 #include <vector>
 
 #include "library/calculator_functions.h"
@@ -12,12 +14,26 @@ int main(int arg, char **argv) {
   double result{};
 
   if (arg < 2) {
-    while (true) {
-      std::cout << "> ";
-      std::getline(std::cin, expression);
+    read_history(".calc_history");
 
-      if (expression == "exit" || expression == "quit" || expression == "q")
+    while (true) {
+      char *input = readline("calqi> ");
+
+      if (!input) { // Ctrl+D pressed
+        std::cout << "\n";
         break;
+      }
+
+      expression = input;
+      free(input);
+
+      if (expression == "exit" || expression == "quit" || expression == "q") {
+        write_history(".calc_history");
+        break;
+      }
+
+      if (expression.empty())
+        continue;
 
       numbers.clear();
       operators.clear();
@@ -25,8 +41,12 @@ int main(int arg, char **argv) {
       parseExpression(expression, numbers, operators);
       result = evaluate(numbers, operators);
 
+      add_history(expression.c_str());
+
       std::cout << "\nAnswer: " << result << "\n";
     }
+
+    write_history(".calc_history");
   } else {
     expression = argv[1];
     parseExpression(expression, numbers, operators);

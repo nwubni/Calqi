@@ -1,5 +1,8 @@
 test_parser
 output
-calc
+calqi
 test_calculator
 test_calc
+.calc_history
+build/
+*.deb

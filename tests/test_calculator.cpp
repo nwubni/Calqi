@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "../library/calculator_functions.h"
-#include "../parsers/calculator_parser.h"
+#include "../src/library/calculator_functions.h"
+#include "../src/parsers/calculator_parser.h"
 
 void test_evaluate_empty_vectors() {
   // Expression: (empty)

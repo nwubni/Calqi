@@ -14,6 +14,8 @@ double subtract(const double &a, const double &b) { return a - b; }
 
 double multiply(const double &a, const double &b) { return a * b; }
 
+double modulo(const double &a, const double &b) { return (int) a % (int) b; }
+
 double divide(const double &a, const double &b) {
   if (b == 0) {
     std::cerr << "Error: Division by zero\n";
@@ -32,7 +34,7 @@ bool isAdditionOrSubtraction(const std::string &op) {
 }
 
 bool isMultiplicationOrDivision(const std::string &op) {
-  return op == "*" || op == "/" || op == "^";
+  return op == "*" || op == "/" || op == "%" || op == "^";
 }
 
 double evaluate(std::vector<double> &numbers,
@@ -216,6 +218,8 @@ double evaluate(std::vector<double> &numbers,
       result = multiply(operand1, operand2);
     } else if (op == "/") {
       result = divide(operand1, operand2);
+    } else if (op == "%") {
+      result = modulo(operand1, operand2);
     } else if (op == "^") {
       result = power(operand1, operand2);
     } else {

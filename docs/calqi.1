@@ -1,0 +1,96 @@
+.TH CALQI 1 "2026" "Calqi 1.0.0" "User Commands"
+.SH NAME
+calqi \- scientific calculator for the terminal
+.SH SYNOPSIS
+.B calqi
+.RI [ expression ]
+.SH DESCRIPTION
+.B calqi
+is a fast, terminal-based scientific calculator with support for mathematical
+functions, operator precedence, and parenthesis nesting. It can be used in both
+interactive and non-interactive modes.
+.SH OPTIONS
+When invoked without arguments,
+.B calqi
+starts in interactive mode with command history support.
+.PP
+When invoked with an expression argument, it evaluates the expression and prints
+the result.
+.SH USAGE
+.SS Non-interactive Mode
+.PP
+.nf
+$ calqi "2 + 2"
+4
+.PP
+$ calqi "sin(0.785398)"
++0.707107
+.PP
+$ calqi "(5 + 3) * 2^3"
+64
+.fi
+.SS Interactive Mode
+.PP
+.nf
+$ calqi
+> 2 + 2
+4
+> sin(0.785398)
+0.707107
+> exit
+.fi
+.PP
+In interactive mode, use arrow keys to navigate command history.
+Press Ctrl+D or type 'exit' or type 'q' to quit.
+.SH OPERATORS
+.TP
+.B +
+Addition
+.TP
+.B \-
+Subtraction
+.TP
+.B *
+Multiplication
+.TP
+.B /
+Division
+.TP
+.B %
+Modulo
+.TP
+.B ^
+Exponentiation
+.SH FUNCTIONS
+.B calqi
+supports the following mathematical functions:
+.PP
+.B Trigonometric:
+sin, cos, tan, asin, acos, atan
+.PP
+.B Logarithmic:
+log (base-10 logarithm), ln (natural logarithm)
+.SH EXAMPLES
+.TP
+Calculate with exponentiation:
+.B calqi "2^8"
+.TP
+Use trigonometric functions:
+.B calqi "sin(1.5708)"
+.TP
+Combine operations with parentheses:
+.B calqi "(3 + 4) * 2"
+.SH AUTHOR
+Written by Nakuru Wubni.
+.SH REPORTING BUGS
+Report bugs to: <nwubni@gmail.com>
+.br
+Project page: <https://github.com/nwubni/calqi>
+.SH COPYRIGHT
+Copyright \(co 2026 Nakuru Wubni.
+.br
+License: MIT
+.SH SEE ALSO
+.BR bc (1),
+.BR dc (1),
+.BR python (1)

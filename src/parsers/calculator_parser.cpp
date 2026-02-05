@@ -6,7 +6,8 @@
 #include "../library/calculator_functions.h"
 #include "calculator_parser.h"
 
-void parseExpression(const std::string &expression, std::vector<double> &numbers,
+void parseExpression(const std::string &expression,
+                     std::vector<double> &numbers,
                      std::vector<std::string> &operators) {
   std::string number{};
   std::string function{};
@@ -43,10 +44,11 @@ void parseExpression(const std::string &expression, std::vector<double> &numbers
           ch == '(')
         operators.push_back("*");
 
-      if (ch == previous_character && (ch == '-' || ch == '+' || ch == '*' || ch == '/' || ch == '^'))
+      if (ch == previous_character && (ch == '-' || ch == '+' || ch == '*' ||
+                                       ch == '/' || ch == '%' || ch == '^'))
         continue;
 
-        operators.push_back(std::string(1, ch));
+      operators.push_back(std::string(1, ch));
     }
 
     previous_character = ch;
