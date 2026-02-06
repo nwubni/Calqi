@@ -38,8 +38,8 @@ int main(int arg, char **argv) {
       numbers.clear();
       operators.clear();
 
-      parseExpression(expression, numbers, operators);
-      result = evaluate(numbers, operators);
+      calqi::parseExpression(expression, numbers, operators);
+      result = calqi::evaluate(numbers, operators);
 
       add_history(expression.c_str());
 
@@ -49,8 +49,8 @@ int main(int arg, char **argv) {
     write_history(".calc_history");
   } else {
     expression = argv[1];
-    parseExpression(expression, numbers, operators);
-    result = evaluate(numbers, operators);
+    calqi::parseExpression(expression, numbers, operators);
+    result = calqi::evaluate(numbers, operators);
 
     std::cout << "\nAnswer: " << result << "\n";
   }

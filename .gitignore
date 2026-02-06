@@ -6,3 +6,4 @@ test_calc
 .calc_history
 build/
 *.deb
+.vscode

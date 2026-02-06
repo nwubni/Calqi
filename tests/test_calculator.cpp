@@ -11,7 +11,7 @@ void test_evaluate_empty_vectors() {
   // Expression: (empty)
   std::vector<double> numbers;
   std::vector<std::string> operators;
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 0);
   std::cout << "✓ test_evaluate_empty_vectors passed\n";
 }
@@ -24,7 +24,7 @@ void test_evaluate_single_addition() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   std::cout << "Result: " << result << "\n";
   assert(result == 8);
   std::cout << "✓ test_evaluate_single_addition passed\n";
@@ -38,7 +38,7 @@ void test_evaluate_single_subtraction() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 6);
   std::cout << "✓ test_evaluate_single_subtraction passed\n";
 }
@@ -51,7 +51,7 @@ void test_evaluate_single_multiplication() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 42);
   std::cout << "✓ test_evaluate_single_multiplication passed\n";
 }
@@ -64,7 +64,7 @@ void test_evaluate_single_division() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 5);
   std::cout << "✓ test_evaluate_single_division passed\n";
 }
@@ -77,7 +77,7 @@ void test_evaluate_multiple_additions() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 10);
   std::cout << "✓ test_evaluate_multiple_additions passed\n";
 }
@@ -90,7 +90,7 @@ void test_evaluate_multiple_subtractions() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 12);
   std::cout << "✓ test_evaluate_multiple_subtractions passed\n";
 }
@@ -103,7 +103,7 @@ void test_evaluate_multiplication_precedence() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 14);
   std::cout << "✓ test_evaluate_multiplication_precedence passed\n";
 }
@@ -116,7 +116,7 @@ void test_evaluate_division_precedence() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 15);
   std::cout << "✓ test_evaluate_division_precedence passed\n";
 }
@@ -129,7 +129,7 @@ void test_evaluate_mixed_operations() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 31);
   std::cout << "✓ test_evaluate_mixed_operations passed\n";
 }
@@ -142,7 +142,7 @@ void test_evaluate_consecutive_multiplications() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 24);
   std::cout << "✓ test_evaluate_consecutive_multiplications passed\n";
 }
@@ -155,7 +155,7 @@ void test_evaluate_consecutive_divisions() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 1);
   std::cout << "✓ test_evaluate_consecutive_divisions passed\n";
 }
@@ -168,7 +168,7 @@ void test_evaluate_subtraction_with_multiplication() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 4);
   std::cout << "✓ test_evaluate_subtraction_with_multiplication passed\n";
 }
@@ -181,7 +181,7 @@ void test_evaluate_complex_expression() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 7);
   std::cout << "✓ test_evaluate_complex_expression passed\n";
 }
@@ -194,7 +194,7 @@ void test_evaluate_division_by_zero() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 0);
   std::cout << "✓ test_evaluate_division_by_zero passed\n";
 }
@@ -207,7 +207,7 @@ void test_evaluate_with_zeros() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 0);
   std::cout << "✓ test_evaluate_with_zeros passed\n";
 }
@@ -220,7 +220,7 @@ void test_evaluate_large_numbers() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 2000);
   std::cout << "✓ test_evaluate_large_numbers passed\n";
 }
@@ -233,7 +233,7 @@ void test_evaluate_with_opening_parenthesis() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 5);
   std::cout << "✓ test_evaluate_with_opening_parenthesis passed (result: "
             << result << ")\n";
@@ -256,7 +256,7 @@ void test_evaluate_parenthesis_simple_addition() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 5);
   std::cout << "✓ test_evaluate_parenthesis_simple_addition passed (result: "
             << result << ")\n";
@@ -270,7 +270,7 @@ void test_evaluate_parenthesis_with_multiplication() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 20);
   std::cout
       << "✓ test_evaluate_parenthesis_with_multiplication passed (result: "
@@ -285,7 +285,7 @@ void test_evaluate_nested_parenthesis() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 20);
   std::cout << "✓ test_evaluate_nested_parenthesis passed (result: " << result
             << ")\n";
@@ -299,7 +299,7 @@ void test_evaluate_multiple_parenthesis_groups() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 45);
   std::cout << "✓ test_evaluate_multiple_parenthesis_groups passed (result: "
             << result << ")\n";
@@ -313,7 +313,7 @@ void test_evaluate_parenthesis_at_end() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 14);
   std::cout << "✓ test_evaluate_parenthesis_at_end passed (result: " << result
             << ")\n";
@@ -327,7 +327,7 @@ void test_evaluate_parenthesis_with_subtraction() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 14);
   std::cout << "✓ test_evaluate_parenthesis_with_subtraction passed (result: "
             << result << ")\n";
@@ -341,7 +341,7 @@ void test_evaluate_parenthesis_with_division() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 8);
   std::cout << "✓ test_evaluate_parenthesis_with_division passed (result: "
             << result << ")\n";
@@ -356,7 +356,7 @@ void test_evaluate_deeply_nested_parenthesis() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 15);
   std::cout << "✓ test_evaluate_deeply_nested_parenthesis passed (result: "
             << result << ")\n";
@@ -370,7 +370,7 @@ void test_evaluate_parenthesis_mixed_precedence() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 29);
   std::cout << "✓ test_evaluate_parenthesis_mixed_precedence passed (result: "
             << result << ")\n";
@@ -385,7 +385,7 @@ void test_evaluate_parenthesis_complex_nested() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 3);
   std::cout << "✓ test_evaluate_parenthesis_complex_nested passed (result: "
             << result << ")\n";
@@ -399,7 +399,7 @@ void test_evaluate_parenthesis_single_number() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 5);
   std::cout << "✓ test_evaluate_parenthesis_single_number passed (result: "
             << result << ")\n";
@@ -413,7 +413,7 @@ void test_evaluate_parenthesis_consecutive_groups() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 25);
   std::cout << "✓ test_evaluate_parenthesis_consecutive_groups passed (result: "
             << result << ")\n";
@@ -427,7 +427,7 @@ void test_evaluate_parenthesis_subtraction_division() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result == 4);
   std::cout
       << "✓ test_evaluate_parenthesis_subtraction_division passed (result: "
@@ -444,7 +444,7 @@ void test_evaluate_sin_function() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result >= -0.001 && result <= 0.001); // sin(0) = 0
   std::cout << "✓ test_evaluate_sin_function passed (result: " << result
             << ")\n";
@@ -458,7 +458,7 @@ void test_evaluate_cos_function() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result >= 0.999 && result <= 1.001); // cos(0) = 1
   std::cout << "✓ test_evaluate_cos_function passed (result: " << result
             << ")\n";
@@ -472,7 +472,7 @@ void test_evaluate_tan_function() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result >= -0.001 && result <= 0.001); // tan(0) = 0
   std::cout << "✓ test_evaluate_tan_function passed (result: " << result
             << ")\n";
@@ -486,7 +486,7 @@ void test_evaluate_asin_function() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result >= -0.001 && result <= 0.001); // asin(0) = 0
   std::cout << "✓ test_evaluate_asin_function passed (result: " << result
             << ")\n";
@@ -500,7 +500,7 @@ void test_evaluate_acos_function() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result >= -0.001 && result <= 0.001); // acos(1) = 0
   std::cout << "✓ test_evaluate_acos_function passed (result: " << result
             << ")\n";
@@ -514,7 +514,7 @@ void test_evaluate_atan_function() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result >= -0.001 && result <= 0.001); // atan(0) = 0
   std::cout << "✓ test_evaluate_atan_function passed (result: " << result
             << ")\n";
@@ -528,7 +528,7 @@ void test_evaluate_log_function() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result >= 1.999 && result <= 2.001); // log10(100) = 2
   std::cout << "✓ test_evaluate_log_function passed (result: " << result
             << ")\n";
@@ -542,7 +542,7 @@ void test_evaluate_ln_function() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result >= 0.999 && result <= 1.001); // ln(e) ≈ 1
   std::cout << "✓ test_evaluate_ln_function passed (result: " << result
             << ")\n";
@@ -556,7 +556,7 @@ void test_evaluate_function_with_addition() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result >= 0.009 && result <= 0.011); // 1 + cos(3) ≈ 0.01
   std::cout << "✓ test_evaluate_function_with_addition passed (result: "
             << result << ")\n";
@@ -570,7 +570,7 @@ void test_evaluate_function_with_multiplication() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result >= 1.99 && result <= 2.01); // 2 * sin(π/2) ≈ 2
   std::cout << "✓ test_evaluate_function_with_multiplication passed (result: "
             << result << ")\n";
@@ -584,7 +584,7 @@ void test_evaluate_nested_functions() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result >= 0.54 && result <= 0.55); // cos(cos(0)) = cos(1) ≈ 0.5403
   std::cout << "✓ test_evaluate_nested_functions passed (result: " << result
             << ")\n";
@@ -598,7 +598,7 @@ void test_evaluate_function_in_parenthesis() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result >= 0.99 && result <= 1.01); // 2*sin(0)+1 = 2*0+1 = 1
   std::cout << "✓ test_evaluate_function_in_parenthesis passed (result: "
             << result << ")\n";
@@ -612,7 +612,7 @@ void test_evaluate_function_in_nested_parenthesis() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result >= 1.99 && result <= 2.01); // (sin(0)+1)*2 = (0+1)*2 = 2
   std::cout << "✓ test_evaluate_function_in_nested_parenthesis passed (result: "
             << result << ")\n";
@@ -626,7 +626,7 @@ void test_evaluate_multiple_functions() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result >= 0.99 && result <= 1.01); // sin(0)+cos(0) = 0+1 = 1
   std::cout << "✓ test_evaluate_multiple_functions passed (result: " << result
             << ")\n";
@@ -640,7 +640,7 @@ void test_evaluate_log_with_operations() {
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 
-  double result = evaluate(numbers, operators);
+  double result = calqi::evaluate(numbers, operators);
   assert(result >= 10.99 && result <= 11.01); // 10 + ln(e) ≈ 11
   std::cout << "✓ test_evaluate_log_with_operations passed (result: " << result
             << ")\n";

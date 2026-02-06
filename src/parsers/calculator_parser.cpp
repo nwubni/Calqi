@@ -6,6 +6,8 @@
 #include "../library/calculator_functions.h"
 #include "calculator_parser.h"
 
+namespace calqi {
+
 void parseExpression(const std::string &expression,
                      std::vector<double> &numbers,
                      std::vector<std::string> &operators) {
@@ -29,7 +31,7 @@ void parseExpression(const std::string &expression,
       continue;
     }
 
-    if (isOperator(std::string(1, ch))) {
+    if (calqi::isOperator(std::string(1, ch))) {
       if (!number.empty()) {
         numbers.push_back(std::stod(number));
         number.clear();
@@ -63,3 +65,5 @@ void parseExpression(const std::string &expression,
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());
 }
+
+} // namespace calqi

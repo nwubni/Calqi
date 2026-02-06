@@ -8,13 +8,15 @@
 #include "../utilities/operator_list.h"
 #include "calculator_functions.h"
 
+namespace calqi {
+
 double add(const double &a, const double &b) { return a + b; }
 
 double subtract(const double &a, const double &b) { return a - b; }
 
 double multiply(const double &a, const double &b) { return a * b; }
 
-double modulo(const double &a, const double &b) { return (int) a % (int) b; }
+double modulo(const double &a, const double &b) { return (int)a % (int)b; }
 
 double divide(const double &a, const double &b) {
   if (b == 0) {
@@ -27,7 +29,7 @@ double divide(const double &a, const double &b) {
 
 double power(const double &a, const double &b) { return std::pow(a, b); }
 
-bool isOperator(const std::string &op) { return operators.contains(op); }
+bool isOperator(const std::string &op) { return calqi::operators.contains(op); }
 
 bool isAdditionOrSubtraction(const std::string &op) {
   return op == "+" || op == "-";
@@ -90,17 +92,17 @@ double evaluate(std::vector<double> &numbers,
     op = operators.back();
     operators.pop_back();
 
-    if (!math_functions.contains(op) && !operators.empty() &&
-        math_functions.contains(operators.back())) {
+    if (!calqi::math_functions.contains(op) && !operators.empty() &&
+        calqi::math_functions.contains(operators.back())) {
       temp_numbers.push_back(operand1);
       temp_operators.push_back(op);
       continue;
     }
 
     // Processes functions and nested function calls
-    if (math_functions.contains(op) && !operators.empty() &&
+    if (calqi::math_functions.contains(op) && !operators.empty() &&
         (operators.back() == "(" ||
-         math_functions.contains(operators.back()))) {
+         calqi::math_functions.contains(operators.back()))) {
       numbers.push_back(operand1);
       temp_operators.push_back(op);
 
@@ -110,7 +112,8 @@ double evaluate(std::vector<double> &numbers,
         operators.pop_back();
       }
 
-      while (!operators.empty() && math_functions.contains(operators.back())) {
+      while (!operators.empty() &&
+             calqi::math_functions.contains(operators.back())) {
         temp_operators.push_back(operators.back());
         operators.pop_back();
 
@@ -153,15 +156,15 @@ double evaluate(std::vector<double> &numbers,
       operand2_set = true;
     }
 
-    if (math_functions.contains(op)) {
+    if (calqi::math_functions.contains(op)) {
       numbers.push_back(operand2);
 
-      result = math_functions.at(op)(operand1);
+      result = calqi::math_functions.at(op)(operand1);
 
       while (!temp_operators.empty() &&
-             math_functions.contains(
+             calqi::math_functions.contains(
                  temp_operators.back())) { // Handle nested function
-        result = math_functions.at(temp_operators.back())(result);
+        result = calqi::math_functions.at(temp_operators.back())(result);
         temp_operators.pop_back();
       }
 
@@ -204,7 +207,8 @@ double evaluate(std::vector<double> &numbers,
       }
 
       if (!temp_numbers.empty() &&
-          (operators.empty() || !math_functions.contains(operators.back()))) {
+          (operators.empty() ||
+           !calqi::math_functions.contains(operators.back()))) {
         numbers.push_back(temp_numbers.back());
         temp_numbers.pop_back();
       }
@@ -248,3 +252,5 @@ double evaluate(std::vector<double> &numbers,
 
   return result;
 }
+
+} // namespace calqi
