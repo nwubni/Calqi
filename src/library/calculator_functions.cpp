@@ -5,6 +5,8 @@
 #include <vector>
 
 #include "../library/math_functions.h"
+#include "../utilities/function_error_messages.h"
+#include "../utilities/function_validator.h"
 #include "../utilities/operator_list.h"
 #include "calculator_functions.h"
 
@@ -158,6 +160,12 @@ double evaluate(std::vector<double> &numbers,
 
     if (calqi::math_functions.contains(op)) {
       numbers.push_back(operand2);
+
+      if (calqi::valid_function_value.contains(op)) {
+        if (!calqi::valid_function_value.at(op)(operand1)) {
+          throw std::invalid_argument(calqi::function_error_messages.at(op));
+        }
+      }
 
       result = calqi::math_functions.at(op)(operand1);
 

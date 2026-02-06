@@ -39,7 +39,13 @@ int main(int arg, char **argv) {
       operators.clear();
 
       calqi::parseExpression(expression, numbers, operators);
-      result = calqi::evaluate(numbers, operators);
+
+      try {
+        result = calqi::evaluate(numbers, operators);
+      } catch (const std::exception &e) {
+        std::cout << "\nError: " << e.what() << "\n";
+        continue;
+      }
 
       add_history(expression.c_str());
 
@@ -50,7 +56,13 @@ int main(int arg, char **argv) {
   } else {
     expression = argv[1];
     calqi::parseExpression(expression, numbers, operators);
-    result = calqi::evaluate(numbers, operators);
+
+    try {
+      result = calqi::evaluate(numbers, operators);
+    } catch (const std::exception &e) {
+      std::cout << "\nError: " << e.what() << "\n";
+      return 1;
+    }
 
     std::cout << "\nAnswer: " << result << "\n";
   }
