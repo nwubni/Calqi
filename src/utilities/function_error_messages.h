@@ -3,7 +3,7 @@
 #include <unordered_map>
 
 namespace calqi {
-const std::unordered_map<std::string, std::string> function_error_messages = {
+inline const std::unordered_map<std::string, std::string> function_error_messages = {
     {"+", "Addition operator (+) requires two operands"},
     {"-", "Subtraction operator (-) requires two operands"},
     {"*", "Multiplication operator (*) requires two operands"},
@@ -20,5 +20,12 @@ const std::unordered_map<std::string, std::string> function_error_messages = {
     {"atan", "Arctangent function (atan) requires one operand"},
     {"log", "Logarithm (log) function requires one operand greater than 0"},
     {"ln",
-     "Natural logarithm (ln) function requires one operand greater than 0"}};
+     "Natural logarithm (ln) function requires one operand greater than 0"},
+    {"sinh", "Hyperbolic sine function (sinh) requires one operand"},
+    {"cosh", "Hyperbolic cosine function (cosh) requires one operand"},
+    {"tanh", "Hyperbolic tangent function (tanh) requires one operand"},
+    {"atanh", "Inverse hyperbolic tangent function (atanh) requires one operand in the range (-1, 1)"},
+    {"asinh", "Inverse hyperbolic sine function (asinh) requires one operand"},
+    {"acosh", "Inverse hyperbolic cosine function (acosh) requires one operand >= 1"},
+};
 }

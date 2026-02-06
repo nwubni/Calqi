@@ -15,4 +15,17 @@ bool asinValid(const double &value) { return value >= -1 && value <= 1; }
 bool acosValid(const double &value) { return value >= -1 && value <= 1; }
 
 bool atanValid(const double &value) { return true; }
+
+bool sinhValid(const double &value) { return true; }
+
+bool coshValid(const double &value) { return true; }
+
+bool tanhValid(const double &value) { return true; }
+
+bool atanhValid(const double &value) { return value > -1 && value < 1; }
+
+bool asinhValid(const double &value) { return true; }
+
+bool acoshValid(const double &value) { return value >= 1; }
+
 } // namespace calqi

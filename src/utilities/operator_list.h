@@ -3,7 +3,8 @@
 #include <unordered_set>
 
 namespace calqi {
-const std::unordered_set<std::string> operators = {
-    "+",   "-",   "*",   "/",    "%",    "^",    "(",   ")", "sqrt",
-    "sin", "cos", "tan", "asin", "acos", "atan", "log", "ln", "abs"};
+inline const std::unordered_set<std::string> operators = {
+    "+",    "-",   "*",    "/",    "%",    "^",     "(",     ")",
+    "sqrt", "sin", "cos",  "tan",  "asin", "acos",  "atan",  "log",
+    "ln",   "abs", "sinh", "cosh", "tanh", "atanh", "asinh", "acosh"};
 }
