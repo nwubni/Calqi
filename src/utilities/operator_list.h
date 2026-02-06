@@ -5,5 +5,5 @@
 namespace calqi {
 const std::unordered_set<std::string> operators = {
     "+",   "-",   "*",   "/",    "%",    "^",    "(",   ")", "sqrt",
-    "sin", "cos", "tan", "asin", "acos", "atan", "log", "ln"};
+    "sin", "cos", "tan", "asin", "acos", "atan", "log", "ln", "abs"};
 }

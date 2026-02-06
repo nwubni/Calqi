@@ -1,8 +1,8 @@
 
 namespace calqi {
-bool sinValid(const double &value) { return value >= -1 && value <= 1; }
+bool sinValid(const double &value) { return true; }
 
-bool cosValid(const double &value) { return value >= -1 && value <= 1; }
+bool cosValid(const double &value) { return true; }
 
 bool tanValid(const double &value) { return true; }
 

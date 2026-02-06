@@ -12,8 +12,8 @@ const std::unordered_map<std::string, std::string> function_error_messages = {
     {"^", "Exponentiation operator (^) requires two operands"},
     {"sqrt", "Square root function (sqrt) requires one operand greater than or "
              "equal to 0"},
-    {"sin", "Sine function (sin) requires one operand within [-1, 1]"},
-    {"cos", "Cosine function (cos) requires one operand within [-1, 1]"},
+    {"sin", "Sine function (sin) requires one operand"},
+    {"cos", "Cosine function (cos) requires one operand"},
     {"tan", "Tangent function (tan) requires one operand"},
     {"asin", "Arcsine function (asin) requires one operand within [-1, 1]"},
     {"acos", "Arccosine function (acos) requires one operand within [-1, 1]"},

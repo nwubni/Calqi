@@ -1,4 +1,6 @@
 #include <algorithm>
+#include <cmath>
+#include <iomanip>
 #include <iostream>
 #include <readline/history.h>
 #include <readline/readline.h>
@@ -8,6 +10,9 @@
 #include "parsers/calculator_parser.h"
 
 int main(int arg, char **argv) {
+  // Set precision for cleaner output
+  std::cout << std::setprecision(15);
+  
   std::vector<double> numbers{};
   std::vector<std::string> operators{};
   std::string expression{};

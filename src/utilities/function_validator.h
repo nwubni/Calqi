@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include <unordered_map>
 
@@ -15,5 +17,6 @@ const std::unordered_map<std::string, bool (*)(const double &)>
     valid_function_value = {{"sin", sinValid},   {"cos", cosValid},
                             {"tan", tanValid},   {"log", logValid},
                             {"sqrt", sqrtValid}, {"asin", asinValid},
-                            {"acos", acosValid}, {"atan", atanValid}};
+                            {"acos", acosValid}, {"atan", atanValid},
+                            {"ln", logValid}};
 } // namespace calqi

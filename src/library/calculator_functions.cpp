@@ -22,6 +22,7 @@ double modulo(const double &a, const double &b) { return (int)a % (int)b; }
 
 double divide(const double &a, const double &b) {
   if (b == 0) {
+    throw std::invalid_argument("Division by zero");
     std::cerr << "Error: Division by zero\n";
     return 0; // or handle error appropriately
   }
@@ -29,7 +30,7 @@ double divide(const double &a, const double &b) {
   return a / b;
 }
 
-double power(const double &a, const double &b) { return std::pow(a, b); }
+double abs(const double &a) { return std::abs(a); }
 
 bool isOperator(const std::string &op) { return calqi::operators.contains(op); }
 
@@ -96,6 +97,13 @@ double evaluate(std::vector<double> &numbers,
 
     if (!calqi::math_functions.contains(op) && !operators.empty() &&
         calqi::math_functions.contains(operators.back())) {
+      temp_numbers.push_back(operand1);
+      temp_operators.push_back(op);
+      continue;
+    }
+
+    if (!operators.empty() && operators.back() == "^" &&
+        (isAdditionOrSubtraction(op) || isMultiplicationOrDivision(op))) {
       temp_numbers.push_back(operand1);
       temp_operators.push_back(op);
       continue;
@@ -233,7 +241,7 @@ double evaluate(std::vector<double> &numbers,
     } else if (op == "%") {
       result = modulo(operand1, operand2);
     } else if (op == "^") {
-      result = power(operand1, operand2);
+      result = std::pow(operand1, operand2);
     } else {
       std::cerr << "Error: Unknown operator " << op << "\n";
       return 0;

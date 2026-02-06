@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "../library/calculator_functions.h"
+#include "../utilities/math_constants.h"
 #include "calculator_parser.h"
 
 namespace calqi {
@@ -29,6 +30,11 @@ void parseExpression(const std::string &expression,
       number += ch;
       previous_character = ch;
       continue;
+    }
+
+    if (calqi::math_constants.contains(function)) {
+      numbers.push_back(calqi::math_constants.at(function));
+      function.clear();
     }
 
     if (calqi::isOperator(std::string(1, ch))) {
