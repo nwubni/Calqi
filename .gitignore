@@ -1,9 +1,37 @@
-test_parser
-output
+# Build artifacts
+build/
+*.o
+*.a
+*.so
+*.dylib
+
+# Executables
 calqi
 test_calculator
+test_parser
 test_calc
-.calc_history
-build/
+output
+
+# Package files
 *.deb
-.vscode
+*.rpm
+*.tar.gz
+
+# History and cache
+.calc_history
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
