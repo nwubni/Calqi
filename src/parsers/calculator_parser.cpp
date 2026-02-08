@@ -65,8 +65,14 @@ void parseExpression(const std::string &expression,
   if (!number.empty())
     numbers.push_back(std::stod(number));
 
-  if (!function.empty())
-    operators.push_back(function);
+  if (!function.empty()) {
+    if (calqi::math_constants.contains(function)) {
+      numbers.push_back(calqi::math_constants.at(function));
+      function.clear();
+    } else {
+      operators.push_back(function);
+    }
+  }
 
   std::reverse(numbers.begin(), numbers.end());
   std::reverse(operators.begin(), operators.end());

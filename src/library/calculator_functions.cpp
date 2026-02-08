@@ -21,10 +21,9 @@ double multiply(const double &a, const double &b) { return a * b; }
 double modulo(const double &a, const double &b) { return (int)a % (int)b; }
 
 double divide(const double &a, const double &b) {
-  if (b == 0) {
+  const double EPSILON = 1e-10;
+  if (std::abs(b) < EPSILON) { // Checks if b is close enough to 0
     throw std::invalid_argument("Division by zero");
-    std::cerr << "Error: Division by zero\n";
-    return 0; // or handle error appropriately
   }
 
   return a / b;
