@@ -14,7 +14,7 @@ void parseExpression(const std::string &expression,
                      std::vector<std::string> &operators) {
   std::string number{};
   std::string function{};
-  char previous_character{};
+  char previous_character{'\0'};
 
   for (const char &ch : expression) {
     if (ch == ' ')
@@ -52,8 +52,18 @@ void parseExpression(const std::string &expression,
           ch == '(')
         operators.push_back("*");
 
-      if (ch == previous_character && (ch == '-' || ch == '+' || ch == '*' ||
-                                       ch == '/' || ch == '%' || ch == '^'))
+      if (ch == '-' &&
+          (previous_character == '\0' || previous_character == '(' ||
+           previous_character == '+' || previous_character == '-' ||
+           previous_character == '*' || previous_character == '/' ||
+           previous_character == '%' || previous_character == '^')) {
+        operators.push_back("neg");
+        previous_character = ch;
+        continue;
+      }
+
+      if (ch == previous_character &&
+          (ch == '+' || ch == '*' || ch == '/' || ch == '%' || ch == '^'))
         continue;
 
       operators.push_back(std::string(1, ch));

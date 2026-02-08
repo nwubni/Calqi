@@ -8,6 +8,7 @@ bool sinValid(const double &value);
 bool cosValid(const double &value);
 bool tanValid(const double &value);
 bool logValid(const double &value);
+bool negValid(const double &value);
 bool sqrtValid(const double &value);
 bool asinValid(const double &value);
 bool acosValid(const double &value);
@@ -21,9 +22,10 @@ bool acoshValid(const double &value);
 
 inline const std::unordered_map<std::string, bool (*)(const double &)>
     valid_function_value = {
-        {"sin", sinValid},     {"cos", cosValid},     {"tan", tanValid},
-        {"log", logValid},     {"sqrt", sqrtValid},   {"asin", asinValid},
-        {"acos", acosValid},   {"atan", atanValid},   {"ln", logValid},
-        {"sinh", sinhValid},   {"cosh", coshValid},   {"tanh", tanhValid},
-        {"atanh", atanhValid}, {"asinh", asinhValid}, {"acosh", acoshValid}};
+        {"sin", sinValid},    {"neg", negValid},     {"cos", cosValid},
+        {"tan", tanValid},    {"log", logValid},     {"sqrt", sqrtValid},
+        {"asin", asinValid},  {"acos", acosValid},   {"atan", atanValid},
+        {"ln", logValid},     {"sinh", sinhValid},   {"cosh", coshValid},
+        {"tanh", tanhValid},  {"atanh", atanhValid}, {"asinh", asinhValid},
+        {"acosh", acoshValid}};
 } // namespace calqi

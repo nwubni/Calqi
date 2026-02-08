@@ -8,6 +8,8 @@ bool tanValid(const double &value) { return true; }
 
 bool logValid(const double &value) { return value > 0; }
 
+bool negValid(const double &value) { return true; }
+
 bool sqrtValid(const double &value) { return value >= 0; }
 
 bool asinValid(const double &value) { return value >= -1 && value <= 1; }

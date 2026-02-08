@@ -637,6 +637,118 @@ void test_evaluate_atanh_function() {
             << ")\n";
 }
 
+void test_evaluate_neg_function() {
+  // Expression: neg(5)
+  std::vector<double> numbers{5};
+  std::vector<std::string> operators{"neg", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result == -5); // neg(5) = -5
+  std::cout << "✓ test_evaluate_neg_function passed (result: " << result
+            << ")\n";
+}
+
+void test_evaluate_neg_negative_number() {
+  // Expression: neg(-3)
+  std::vector<double> numbers{-3};
+  std::vector<std::string> operators{"neg", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result == 3); // neg(-3) = 3
+  std::cout << "✓ test_evaluate_neg_negative_number passed (result: " << result
+            << ")\n";
+}
+
+void test_evaluate_neg_with_addition() {
+  // Expression: 2+neg(5)
+  std::vector<double> numbers{2, 5};
+  std::vector<std::string> operators{"+", "neg", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result == -3); // 2 + neg(5) = 2 + (-5) = -3
+  std::cout << "✓ test_evaluate_neg_with_addition passed (result: " << result
+            << ")\n";
+}
+
+void test_evaluate_neg_with_multiplication() {
+  // Expression: 7*neg(3)
+  std::vector<double> numbers{7, 3};
+  std::vector<std::string> operators{"*", "neg", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result == -21); // 7 * neg(3) = 7 * (-3) = -21
+  std::cout << "✓ test_evaluate_neg_with_multiplication passed (result: "
+            << result << ")\n";
+}
+
+void test_evaluate_double_negation() {
+  // Expression: 8-neg(2)
+  std::vector<double> numbers{8, 2};
+  std::vector<std::string> operators{"-", "neg", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result == 10); // 8 - neg(2) = 8 - (-2) = 10
+  std::cout << "✓ test_evaluate_double_negation passed (result: " << result
+            << ")\n";
+}
+
+void test_evaluate_neg_in_parentheses() {
+  // Expression: (neg(5))*3
+  std::vector<double> numbers{5, 3};
+  std::vector<std::string> operators{"(", "neg", "(", ")", ")", "*"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result == -15); // (neg(5)) * 3 = (-5) * 3 = -15
+  std::cout << "✓ test_evaluate_neg_in_parentheses passed (result: " << result
+            << ")\n";
+}
+
+void test_evaluate_neg_with_exponent() {
+  // Expression: 2^neg(3)
+  std::vector<double> numbers{2, 3};
+  std::vector<std::string> operators{"^", "neg", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result >= 0.124 && result <= 0.126); // 2^(-3) = 0.125
+  std::cout << "✓ test_evaluate_neg_with_exponent passed (result: " << result
+            << ")\n";
+}
+
+void test_evaluate_neg_with_function() {
+  // Expression: sin(neg(1))
+  std::vector<double> numbers{1};
+  std::vector<std::string> operators{"sin", "(", "neg", "(", ")", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result >= -0.85 && result <= -0.84); // sin(-1) ≈ -0.8414
+  std::cout << "✓ test_evaluate_neg_with_function passed (result: " << result
+            << ")\n";
+}
+
 void test_evaluate_function_with_addition() {
   // Expression: 1+cos(3)
   std::vector<double> numbers{1, 3};
@@ -735,6 +847,150 @@ void test_evaluate_log_with_operations() {
             << ")\n";
 }
 
+void test_stress_very_large_numbers() {
+  // Expression: 999999999*999999999
+  std::vector<double> numbers{999999999, 999999999};
+  std::vector<std::string> operators{"*"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result >= 9.99e17 && result <= 1.0e18); // ~9.99998e17
+  std::cout << "✓ test_stress_very_large_numbers passed (result: " << result
+            << ")\n";
+}
+
+void test_stress_very_small_numbers() {
+  // Expression: 0.000000001*0.000000001
+  std::vector<double> numbers{0.000000001, 0.000000001};
+  std::vector<std::string> operators{"*"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result >= 9.9e-19 && result <= 1.1e-18); // 1e-18
+  std::cout << "✓ test_stress_very_small_numbers passed (result: " << result
+            << ")\n";
+}
+
+void test_stress_deeply_nested_parentheses() {
+  // Expression: ((((1+2)*3)/4)^2)
+  std::vector<double> numbers{1, 2, 3, 4, 2};
+  std::vector<std::string> operators{"(", "(", "(", "(", "+", ")",
+                                     "*", ")", "/", ")", "^", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result >= 5.06 && result <= 5.07); // ((1+2)*3/4)^2 = (2.25)^2 = 5.0625
+  std::cout << "✓ test_stress_deeply_nested_parentheses passed (result: "
+            << result << ")\n";
+}
+
+void test_stress_long_addition_chain() {
+  // Expression: 1+2+3+4+5+6+7+8+9+10
+  std::vector<double> numbers{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+  std::vector<std::string> operators{"+", "+", "+", "+", "+",
+                                     "+", "+", "+", "+"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result == 55); // Sum of 1 to 10 = 55
+  std::cout << "✓ test_stress_long_addition_chain passed (result: " << result
+            << ")\n";
+}
+
+void test_stress_long_multiplication_chain() {
+  // Expression: 2*2*2*2*2*2*2*2*2*2
+  std::vector<double> numbers{2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
+  std::vector<std::string> operators{"*", "*", "*", "*", "*",
+                                     "*", "*", "*", "*"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result == 1024); // 2^10 = 1024
+  std::cout << "✓ test_stress_long_multiplication_chain passed (result: "
+            << result << ")\n";
+}
+
+void test_stress_nested_functions() {
+  // Expression: sin(cos(sin(cos(0))))
+  std::vector<double> numbers{0};
+  std::vector<std::string> operators{"sin", "(", "cos", "(", "sin", "(",
+                                     "cos", "(", ")",   ")", ")",   ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result >= 0.617 && result <= 0.619); // sin(cos(sin(cos(0)))) ≈ 0.618
+  std::cout << "✓ test_stress_nested_functions passed (result: " << result
+            << ")\n";
+}
+
+void test_stress_mixed_operations_complex() {
+  // Expression: (10+5)*2-8/4+3^2
+  std::vector<double> numbers{10, 5, 2, 8, 4, 3, 2};
+  std::vector<std::string> operators{"(", "+", ")", "*", "-", "/", "+", "^"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result == 37); // (10+5)*2-8/4+3^2 = 15*2-2+9 = 30-2+9 = 37
+  std::cout << "✓ test_stress_mixed_operations_complex passed (result: "
+            << result << ")\n";
+}
+
+void test_stress_precision_near_zero() {
+  // Expression: sin(3.14159265359)-0
+  std::vector<double> numbers{3.14159265359, 0};
+  std::vector<std::string> operators{"sin", "(", ")", "-"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result >= -0.0001 && result <= 0.0001); // sin(π) ≈ 0
+  std::cout << "✓ test_stress_precision_near_zero passed (result: " << result
+            << ")\n";
+}
+
+void test_stress_exponentiation_large() {
+  // Expression: 10^15
+  std::vector<double> numbers{10, 15};
+  std::vector<std::string> operators{"^"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result == 1e15); // 10^15 = 1000000000000000
+  std::cout << "✓ test_stress_exponentiation_large passed (result: " << result
+            << ")\n";
+}
+
+void test_stress_negative_exponentiation() {
+  // Expression: 10^neg(6)
+  std::vector<double> numbers{10, 6};
+  std::vector<std::string> operators{"^", "neg", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result == 1e-6); // 10^(-6) = 0.000001
+  std::cout << "✓ test_stress_negative_exponentiation passed (result: "
+            << result << ")\n";
+}
+
 int main() {
   std::cout << "Running unit tests for evaluate function...\n\n";
 
@@ -791,6 +1047,16 @@ int main() {
   test_evaluate_acosh_function();
   test_evaluate_atanh_function();
 
+  std::cout << "\n--- Negation Function Tests ---\n";
+  test_evaluate_neg_function();
+  test_evaluate_neg_negative_number();
+  test_evaluate_neg_with_addition();
+  test_evaluate_neg_with_multiplication();
+  test_evaluate_double_negation();
+  test_evaluate_neg_in_parentheses();
+  test_evaluate_neg_with_exponent();
+  test_evaluate_neg_with_function();
+
   std::cout << "\n--- Function Combination Tests ---\n";
   test_evaluate_function_with_addition();
   test_evaluate_function_with_multiplication();
@@ -799,6 +1065,18 @@ int main() {
   test_evaluate_function_in_nested_parenthesis();
   test_evaluate_multiple_functions();
   test_evaluate_log_with_operations();
+
+  std::cout << "\n--- Stress Tests ---\n";
+  test_stress_very_large_numbers();
+  test_stress_very_small_numbers();
+  test_stress_deeply_nested_parentheses();
+  test_stress_long_addition_chain();
+  test_stress_long_multiplication_chain();
+  test_stress_nested_functions();
+  test_stress_mixed_operations_complex();
+  test_stress_precision_near_zero();
+  test_stress_exponentiation_large();
+  test_stress_negative_exponentiation();
 
   std::cout << "\n✅ All tests completed\n";
 
