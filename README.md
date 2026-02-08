@@ -35,10 +35,10 @@ A fast, lightweight command-line calculator for Linux/Unix systems. Calqi provid
 
 ```bash
 # Download the latest release
-wget https://github.com/yourusername/calqi/releases/download/v1.0.0/calqi-v1-00.deb
+wget https://github.com/nwubni/calqi/releases/download/v1.0.0/calqi_1.0.0_amd64.deb
 
 # Install
-sudo dpkg -i calqi-v1-00.deb
+sudo dpkg -i calqi_1.0.0_amd64.deb
 
 # If dependencies are missing
 sudo apt-get install -f
@@ -59,13 +59,16 @@ sudo apt-get install build-essential cmake libreadline-dev
 **Build:**
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/calqi.git
+git clone https://github.com/nwubni/calqi.git
 cd calqi
 
 # Build with CMake
 mkdir build && cd build
 cmake ..
 make
+
+# Create .deb package (optional)
+cpack
 
 # Install (optional)
 sudo make install
@@ -125,7 +128,7 @@ Answer: 0.707106781186548
 - Use ↑/↓ arrow keys to navigate history
 - Ctrl+R for reverse search
 - Tab completion (if configured)
-- Type `exit` or press Ctrl+D to quit
+- Type `exit`, `quit`, or `q` to quit (or press Ctrl+D)
 
 ## Examples
 
@@ -147,6 +150,58 @@ calqi "sqrt(2) * 100"           # 141.421 (diagonal)
 calqi "15 * 1.08"               # Tax calculation
 calqi "(100 - 75) / 100 * 100"  # Percentage
 calqi "fact(6) / (fact(2) * fact(4))" # Combinations
+```
+
+### Shell Scripting
+
+Calqi can be used in shell scripts, but requires text processing to extract just the numeric result since it outputs `"Answer: <number>"`.
+
+**Extracting the result:**
+```bash
+# Using awk to get the second field (the number after "Answer:")
+result=$(calqi "2 + 3" | awk '{print $2}')
+echo $result  # Output: 5
+
+# Using awk + xargs to also trim any whitespace/newlines
+result=$(calqi "pi * 5^2" | awk '{print $2}' | xargs)
+echo $result  # Output: 78.5398163397448
+```
+
+**Explanation:**
+- `awk '{print $2}'` - Splits output by whitespace and extracts the 2nd field (the number after "Answer:")
+- `xargs` - Trims leading/trailing whitespace and newlines
+
+**Complete example:**
+```bash
+#!/bin/bash
+
+# Calculate tax in a script
+price=100
+tax=$(calqi "$price * 1.08" | awk '{print $2}' | xargs)
+echo "Total with tax: $tax"
+
+# Use in loops
+for i in {1..5}; do
+    result=$(calqi "$i^2" | awk '{print $2}' | xargs)
+    echo "$i squared = $result"
+done
+
+# Conditional logic
+area=$(calqi "pi * 5^2" | awk '{print $2}' | xargs)
+if (( $(echo "$area > 75" | bc -l) )); then
+    echo "Area is large: $area"
+fi
+```
+
+**Output:**
+```
+Total with tax: 108
+1 squared = 1
+2 squared = 4
+3 squared = 9
+4 squared = 16
+5 squared = 25
+Area is large: 78.5398163397448
 ```
 
 ## Function Reference
@@ -173,6 +228,9 @@ calqi "fact(6) / (fact(2) * fact(4))" # Combinations
 | `rand(n)` | Random 1 to n | n > 0, integer | `rand(10)` = 1-10 |
 
 ### Trigonometric Functions
+
+**Note:** Trigonometric functions require radians as input.
+
 | Function | Description | Example |
 |----------|-------------|---------|
 | `sin(x)` | Sine (radians) | `sin(pi/2)` = 1 |
@@ -260,6 +318,7 @@ calqi/
 
 - **Language**: C++20
 - **Dependencies**: GNU Readline
+- **Parsing**: Stack-based expression evaluation (not recursive descent)
 - **Precision**: Double-precision floating-point (IEEE 754)
 - **Epsilon handling**: Division by values < 1e-10 treated as division by zero
 - **Factorial limit**: Returns infinity for n > 170 (double overflow)
@@ -290,8 +349,8 @@ calqi "fact(3.5)"
 | Functions | Built-in | Requires -l | Requires import | Many |
 | Speed | Fast | Fast | Slower | Fast |
 | Interactive | Yes | Yes | Yes | Yes |
-| Scriptable | Yes | Yes | Yes | Yes |
 | One-liner friendly | ✓ | ✗ | ✗ | ✓ |
+| Shell scripting | ✓ | ✓ | ✓ | ✓ |
 
 **Example comparison:**
 ```bash
@@ -324,7 +383,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Author
 
-**nwubni**
+**Nakuru Wubni**
 - Email: nwubni@gmail.com
 - GitHub: [@nwubni](https://github.com/nwubni)
 
