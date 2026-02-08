@@ -749,6 +749,117 @@ void test_evaluate_neg_with_function() {
             << ")\n";
 }
 
+void test_evaluate_fact_function() {
+  // Expression: fact(5)
+  std::vector<double> numbers{5};
+  std::vector<std::string> operators{"fact", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result == 120); // 5! = 120
+  std::cout << "✓ test_evaluate_fact_function passed (result: " << result
+            << ")\n";
+}
+
+void test_evaluate_fact_zero() {
+  // Expression: fact(0)
+  std::vector<double> numbers{0};
+  std::vector<std::string> operators{"fact", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result == 1); // 0! = 1
+  std::cout << "✓ test_evaluate_fact_zero passed (result: " << result << ")\n";
+}
+
+void test_evaluate_floor_function() {
+  // Expression: floor(3.7)
+  std::vector<double> numbers{3.7};
+  std::vector<std::string> operators{"floor", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result == 3); // floor(3.7) = 3
+  std::cout << "✓ test_evaluate_floor_function passed (result: " << result
+            << ")\n";
+}
+
+void test_evaluate_floor_negative() {
+  // Expression: floor(-2.3)
+  std::vector<double> numbers{-2.3};
+  std::vector<std::string> operators{"floor", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result == -3); // floor(-2.3) = -3
+  std::cout << "✓ test_evaluate_floor_negative passed (result: " << result
+            << ")\n";
+}
+
+void test_evaluate_ceil_function() {
+  // Expression: ceil(3.2)
+  std::vector<double> numbers{3.2};
+  std::vector<std::string> operators{"ceil", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result == 4); // ceil(3.2) = 4
+  std::cout << "✓ test_evaluate_ceil_function passed (result: " << result
+            << ")\n";
+}
+
+void test_evaluate_ceil_negative() {
+  // Expression: ceil(-2.7)
+  std::vector<double> numbers{-2.7};
+  std::vector<std::string> operators{"ceil", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result == -2); // ceil(-2.7) = -2
+  std::cout << "✓ test_evaluate_ceil_negative passed (result: " << result
+            << ")\n";
+}
+
+void test_evaluate_rand_function() {
+  // Expression: rand(100)
+  std::vector<double> numbers{100};
+  std::vector<std::string> operators{"rand", "(", ")"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result >= 1 && result <= 100); // rand(100) should be in [1, 100]
+  std::cout << "✓ test_evaluate_rand_function passed (result: " << result
+            << ")\n";
+}
+
+void test_evaluate_fact_with_operations() {
+  // Expression: fact(4)+10
+  std::vector<double> numbers{4, 10};
+  std::vector<std::string> operators{"fact", "(", ")", "+"};
+
+  std::reverse(numbers.begin(), numbers.end());
+  std::reverse(operators.begin(), operators.end());
+
+  double result = calqi::evaluate(numbers, operators);
+  assert(result == 34); // 4! + 10 = 24 + 10 = 34
+  std::cout << "✓ test_evaluate_fact_with_operations passed (result: " << result
+            << ")\n";
+}
+
 void test_evaluate_function_with_addition() {
   // Expression: 1+cos(3)
   std::vector<double> numbers{1, 3};
@@ -1056,6 +1167,16 @@ int main() {
   test_evaluate_neg_in_parentheses();
   test_evaluate_neg_with_exponent();
   test_evaluate_neg_with_function();
+
+  std::cout << "\n--- New Function Tests (fact, floor, ceil, rand) ---\n";
+  test_evaluate_fact_function();
+  test_evaluate_fact_zero();
+  test_evaluate_floor_function();
+  test_evaluate_floor_negative();
+  test_evaluate_ceil_function();
+  test_evaluate_ceil_negative();
+  test_evaluate_rand_function();
+  test_evaluate_fact_with_operations();
 
   std::cout << "\n--- Function Combination Tests ---\n";
   test_evaluate_function_with_addition();

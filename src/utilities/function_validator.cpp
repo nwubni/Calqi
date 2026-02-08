@@ -30,4 +30,18 @@ bool asinhValid(const double &value) { return true; }
 
 bool acoshValid(const double &value) { return value >= 1; }
 
+bool factValid(const double &value) {
+  // Factorial requires non-negative integer
+  return value >= 0 && value == static_cast<int>(value);
+}
+
+bool floorValid(const double &value) { return true; }
+
+bool ceilValid(const double &value) { return true; }
+
+bool randValid(const double &value) {
+  // Random requires positive integer max value
+  return value > 0 && value == static_cast<int>(value);
+}
+
 } // namespace calqi

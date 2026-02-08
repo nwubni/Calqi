@@ -34,5 +34,12 @@ inline const std::unordered_map<std::string, std::string>
          "Inverse hyperbolic sine function (asinh) requires one operand"},
         {"acosh", "Inverse hyperbolic cosine function (acosh) requires one "
                   "operand >= 1"},
+        {"fact",
+         "Factorial function (fact) requires one non-negative integer operand"},
+        {"floor", "Floor function (floor) requires one operand"},
+        {"ceil", "Ceiling function (ceil) requires one operand"},
+        {"rand",
+         "Random function (rand) requires one positive integer operand (max "
+         "value)"},
 };
 }
