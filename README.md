@@ -35,7 +35,7 @@ A fast, lightweight command-line calculator for Linux/Unix systems. Calqi provid
 
 ```bash
 # Download the latest release
-wget https://github.com/nwubni/calqi/releases/download/v1.0.0/calqi_1.0.0_amd64.deb
+wget https://github.com/nwubni/Calqi/releases/download/v1.0.0/calqi_1.0.0_amd64.deb
 
 # Install
 sudo dpkg -i calqi_1.0.0_amd64.deb
@@ -59,8 +59,8 @@ sudo apt-get install build-essential cmake libreadline-dev
 **Build:**
 ```bash
 # Clone the repository
-git clone https://github.com/nwubni/calqi.git
-cd calqi
+git clone https://github.com/nwubni/Calqi.git
+cd Calqi
 
 # Build with CMake
 mkdir build && cd build
