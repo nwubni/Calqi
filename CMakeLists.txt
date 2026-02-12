@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(Calqi VERSION 1.0.0 LANGUAGES CXX)
+project(Calqi VERSION 1.0.1 LANGUAGES CXX)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 20)
@@ -31,7 +31,7 @@ endif()
 set(CPACK_GENERATOR "DEB")
 set(CPACK_PACKAGE_NAME "calqi")
 set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
-set(CPACK_PACKAGE_FILE_NAME "calqi-v1-00")
+set(CPACK_PACKAGE_FILE_NAME "calqi-v1-01")
 set(CPACK_PACKAGE_CONTACT "nwubni@gmail.com")  # CHANGE THIS
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Nakuru Wubni <nwubni@gmail.com>")  # CHANGE THIS
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Scientific calculator for terminal")
