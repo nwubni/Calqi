@@ -44,6 +44,19 @@ sudo dpkg -i calqi-v1-00.deb
 sudo apt-get install -f
 ```
 
+### Uninstall
+
+```bash
+# Remove the package
+sudo dpkg -r calqi
+
+# Or use apt to remove (if installed via apt)
+sudo apt remove calqi
+
+# Clean up any configuration files (optional)
+sudo apt purge calqi
+```
+
 ### Build from Source
 
 **Requirements:**

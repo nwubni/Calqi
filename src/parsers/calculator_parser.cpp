@@ -21,6 +21,9 @@ void parseExpression(const std::string &expression,
       continue;
 
     if (std::isalpha(ch)) {
+      if (std::isdigit(previous_character))
+        operators.push_back("*");
+
       function += ch;
       previous_character = ch;
       continue;
