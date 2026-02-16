@@ -35,10 +35,10 @@ A fast, lightweight command-line calculator for Linux/Unix systems. Calqi provid
 
 ```bash
 # Download the latest release
-wget https://github.com/nwubni/Calqi/releases/download/v1.0.1/calqi-v1-01.deb
+wget https://github.com/nwubni/Calqi/releases/download/v1.0.2/calqi-v1-02.deb
 
 # Install
-sudo dpkg -i calqi-v1-01.deb
+sudo dpkg -i calqi-v1-02.deb
 
 # If dependencies are missing
 sudo apt-get install -f
