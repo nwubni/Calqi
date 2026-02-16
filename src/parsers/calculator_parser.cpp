@@ -15,10 +15,20 @@ void parseExpression(const std::string &expression,
   std::string number{};
   std::string function{};
   char previous_character{'\0'};
+  std::vector<char> check_bracket{};
 
   for (const char &ch : expression) {
     if (ch == ' ')
       continue;
+
+    if (ch == '(')
+      check_bracket.push_back(ch);
+    else if (ch == ')') {
+      if (check_bracket.empty() || check_bracket.back() != '(')
+        throw std::runtime_error("Parenthesis mismatch.");
+
+      check_bracket.pop_back();
+    }
 
     if (std::isalpha(ch)) {
       if (std::isdigit(previous_character))
@@ -74,6 +84,9 @@ void parseExpression(const std::string &expression,
 
     previous_character = ch;
   }
+
+  if (!check_bracket.empty())
+    throw std::runtime_error("Parenthesis not closed properly.");
 
   if (!number.empty())
     numbers.push_back(std::stod(number));

@@ -43,9 +43,8 @@ int main(int arg, char **argv) {
       numbers.clear();
       operators.clear();
 
-      calqi::parseExpression(expression, numbers, operators);
-
       try {
+        calqi::parseExpression(expression, numbers, operators);
         result = calqi::evaluate(numbers, operators);
       } catch (const std::exception &e) {
         std::cout << "\nError: " << e.what() << "\n";
@@ -60,9 +59,9 @@ int main(int arg, char **argv) {
     write_history(".calc_history");
   } else {
     expression = argv[1];
-    calqi::parseExpression(expression, numbers, operators);
-
+    
     try {
+      calqi::parseExpression(expression, numbers, operators);
       result = calqi::evaluate(numbers, operators);
     } catch (const std::exception &e) {
       std::cout << "\nError: " << e.what() << "\n";
