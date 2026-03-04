@@ -1,7 +1,6 @@
 
 #include <cmath>
-#include <iomanip>
-#include <iostream>
+#include <stdexcept>
 #include <vector>
 
 #include "../library/math_functions.h"
@@ -33,239 +32,159 @@ double abs(const double &a) { return std::abs(a); }
 
 bool isOperator(const std::string &op) { return calqi::operators.contains(op); }
 
-bool isAdditionOrSubtraction(const std::string &op) {
-  return op == "+" || op == "-";
-}
-
-bool isMultiplicationOrDivision(const std::string &op) {
-  return op == "*" || op == "/" || op == "%" || op == "^";
-}
-
 double evaluate(std::vector<double> &numbers,
                 std::vector<std::string> &operators) {
   if (numbers.empty())
     return 0;
 
-  std::string op{};
-  double operand1{};
-  double operand2{};
-  double result{0};
-  bool operand1_set{false};
-  bool operand2_set{false};
-  std::vector<double> temp_numbers{};
-  std::vector<std::string> temp_operators{};
+  std::vector<double> values{};
+  std::vector<std::string> op_stack{};
 
-  while (!numbers.empty() && !operators.empty()) {
-    /*std::cout << "\nTemp Numbers\n";
-    for (int i{0}; i < temp_numbers.size(); i++) {
-      std::cout << temp_numbers[i] << "\n";
-    }
+  auto precedence = [](const std::string &op) {
+    if (op == "+" || op == "-")
+      return 1;
+    if (op == "*" || op == "/" || op == "%")
+      return 2;
+    if (op == "^")
+      return 3;
+    return 0;
+  };
 
-    std::cout << "\nTemp Operators\n";
-    for (int i{0}; i < temp_operators.size(); i++) {
-      std::cout << temp_operators[i] << "\n";
-    }
+  auto isBinaryOperator = [](const std::string &op) {
+    return op == "+" || op == "-" || op == "*" || op == "/" || op == "%" ||
+           op == "^";
+  };
 
-    std::cout << "\nNumbers\n";
-    for (int i{0}; i < numbers.size(); i++) {
-      std::cout << numbers[i] << "\n";
-    }
-
-    std::cout << "\nOperators\n";
-    for (int i{0}; i < operators.size(); i++) {
-      std::cout << operators[i] << "\n";
-    }*/
-
-    operand1_set = false;
-    operand2_set = false;
-    operand1 = 0;
-
-    if (!numbers.empty()) {
-      operand1 = numbers.back();
-      numbers.pop_back();
-      operand1_set = true;
-    }
-
-    // Advance to the innermost expression to process nested parenthesis
-    while (!operators.empty() && operators.back() == "(") {
-      operators.pop_back();
-    }
-
-    op = operators.back();
-    operators.pop_back();
-
-    if (!calqi::math_functions.contains(op) && !operators.empty() &&
-        calqi::math_functions.contains(operators.back())) {
-      temp_numbers.push_back(operand1);
-      temp_operators.push_back(op);
-      continue;
-    }
-
-    if (!operators.empty() && operators.back() == "^" &&
-        (isAdditionOrSubtraction(op) || isMultiplicationOrDivision(op))) {
-      temp_numbers.push_back(operand1);
-      temp_operators.push_back(op);
-      continue;
-    }
-
-    // Processes functions and nested function calls
-    if (calqi::math_functions.contains(op) && !operators.empty() &&
-        (operators.back() == "(" ||
-         calqi::math_functions.contains(operators.back()))) {
-      numbers.push_back(operand1);
-      temp_operators.push_back(op);
-
-      while (!operators.empty() &&
-             operators.back() == "(") { // Advance to the innermost expression
-                                        // to process nested parenthesis
-        operators.pop_back();
-      }
-
-      while (!operators.empty() &&
-             calqi::math_functions.contains(operators.back())) {
-        temp_operators.push_back(operators.back());
-        operators.pop_back();
-
-        while (!operators.empty() &&
-               operators.back() == "(") { // Advance to the innermost expression
-                                          // to process nested parenthesis
-          operators.pop_back();
-        }
-      }
-
-      continue;
-    }
-
-    if (op == "^" && (!operators.empty() && operators.back() == "(")) {
-      temp_numbers.push_back(operand1);
-      temp_operators.push_back(op);
-      continue;
-    }
-
-    if (!operators.empty() &&
-        ((op != "(" && operators.back() == "(") ||
-         (isAdditionOrSubtraction(op) &&
-          isMultiplicationOrDivision(operators.back())))) {
-      temp_numbers.push_back(operand1);
-      temp_operators.push_back(op);
-      continue;
-    }
-
-    while (!operators.empty() &&
-           operators.back() == "(") { // Advance to the innermost expression to
-                                      // process nested parenthesis
-      operators.pop_back();
-    }
-
-    operand2 = 0;
-
-    if (!numbers.empty()) {
-      operand2 = numbers.back();
-      numbers.pop_back();
-      operand2_set = true;
-    }
-
+  auto apply_operator = [&](const std::string &op) {
     if (calqi::math_functions.contains(op)) {
-      numbers.push_back(operand2);
+      if (values.empty())
+        throw std::runtime_error("Invalid expression.");
 
-      if (calqi::valid_function_value.contains(op)) {
-        if (!calqi::valid_function_value.at(op)(operand1)) {
-          throw std::invalid_argument(calqi::function_error_messages.at(op));
-        }
+      double operand = values.back();
+      values.pop_back();
+
+      if (calqi::valid_function_value.contains(op) &&
+          !calqi::valid_function_value.at(op)(operand)) {
+        throw std::invalid_argument(calqi::function_error_messages.at(op));
       }
 
-      result = calqi::math_functions.at(op)(operand1);
-
-      while (!temp_operators.empty() &&
-             calqi::math_functions.contains(
-                 temp_operators.back())) { // Handle nested function
-        result = calqi::math_functions.at(temp_operators.back())(result);
-        temp_operators.pop_back();
-      }
-
-      numbers.push_back(result);
-      result = 0;
-
-      // Restore all pending numbers and operators from temp stacks
-      while (!temp_numbers.empty()) {
-        numbers.push_back(temp_numbers.back());
-        temp_numbers.pop_back();
-      }
-
-      while (!temp_operators.empty()) {
-        operators.push_back(temp_operators.back());
-        temp_operators.pop_back();
-      }
-
-      continue;
-    } else if (op == "(") {
-      if (result != 0)
-        temp_numbers.push_back(result);
-
-      if (operand2 != 0)
-        numbers.push_back(operand2);
-
-      if (operand1 != 0)
-        numbers.push_back(operand1);
-
-      continue;
-    } else if (op == ")") {
-      if (operand2_set)
-        numbers.push_back(operand2);
-
-      if (operand1_set)
-        numbers.push_back(operand1);
-
-      if (!temp_operators.empty()) {
-        operators.push_back(temp_operators.back());
-        temp_operators.pop_back();
-      }
-
-      if (!temp_numbers.empty() &&
-          (operators.empty() ||
-           !calqi::math_functions.contains(operators.back()))) {
-        numbers.push_back(temp_numbers.back());
-        temp_numbers.pop_back();
-      }
-
-      continue;
-    } else if (op == "+") {
-      result = add(operand1, operand2);
-    } else if (op == "-") {
-      result = subtract(operand1, operand2);
-    } else if (op == "*") {
-      result = multiply(operand1, operand2);
-    } else if (op == "/") {
-      result = divide(operand1, operand2);
-    } else if (op == "%") {
-      result = modulo(operand1, operand2);
-    } else if (op == "^") {
-      result = std::pow(operand1, operand2);
-    } else {
-      std::cerr << "Error: Unknown operator " << op << "\n";
-      return 0;
+      values.push_back(calqi::math_functions.at(op)(operand));
+      return;
     }
 
-    numbers.push_back(result);
-    result = 0;
+    if (values.size() < 2)
+      throw std::runtime_error("Invalid expression.");
 
-    while (!temp_numbers.empty()) {
-      numbers.push_back(temp_numbers.back());
-      temp_numbers.pop_back();
+    double right = values.back();
+    values.pop_back();
+    double left = values.back();
+    values.pop_back();
+
+    if (op == "+")
+      values.push_back(add(left, right));
+    else if (op == "-")
+      values.push_back(subtract(left, right));
+    else if (op == "*")
+      values.push_back(multiply(left, right));
+    else if (op == "/")
+      values.push_back(divide(left, right));
+    else if (op == "%")
+      values.push_back(modulo(left, right));
+    else if (op == "^")
+      values.push_back(std::pow(left, right));
+    else
+      throw std::runtime_error("Unknown operator.");
+  };
+
+  std::size_t number_index{0};
+  std::size_t operator_index{0};
+  bool expect_value{true};
+
+  while (number_index < numbers.size() || operator_index < operators.size()) {
+    if (expect_value) {
+      if (operator_index < operators.size() &&
+          (operators[operator_index] == "(" ||
+           calqi::math_functions.contains(operators[operator_index]))) {
+        op_stack.push_back(operators[operator_index]);
+        operator_index++;
+        continue;
+      }
+
+      if (number_index >= numbers.size())
+        throw std::runtime_error("Invalid expression.");
+
+      values.push_back(numbers[number_index]);
+      number_index++;
+
+      while (!op_stack.empty() &&
+             calqi::math_functions.contains(op_stack.back()) &&
+             (op_stack.size() == 1 || op_stack[op_stack.size() - 2] != "(")) {
+        apply_operator(op_stack.back());
+        op_stack.pop_back();
+      }
+
+      expect_value = false;
+      continue;
     }
 
-    while (!temp_operators.empty()) {
-      operators.push_back(temp_operators.back());
-      temp_operators.pop_back();
+    if (operator_index >= operators.size())
+      break;
+
+    const std::string &op = operators[operator_index];
+
+    if (op == ")") {
+      while (!op_stack.empty() && op_stack.back() != "(") {
+        apply_operator(op_stack.back());
+        op_stack.pop_back();
+      }
+
+      if (op_stack.empty() || op_stack.back() != "(")
+        throw std::runtime_error("Parenthesis mismatch.");
+
+      op_stack.pop_back();
+      operator_index++;
+
+      while (!op_stack.empty() &&
+             calqi::math_functions.contains(op_stack.back())) {
+        apply_operator(op_stack.back());
+        op_stack.pop_back();
+      }
+
+      expect_value = false;
+      continue;
     }
+
+    if (!isBinaryOperator(op))
+      throw std::runtime_error("Invalid expression.");
+
+    while (!op_stack.empty() && isBinaryOperator(op_stack.back()) &&
+           ((op != "^" && precedence(op_stack.back()) >= precedence(op)) ||
+            (op == "^" && precedence(op_stack.back()) > precedence(op)))) {
+      apply_operator(op_stack.back());
+      op_stack.pop_back();
+    }
+
+    op_stack.push_back(op);
+    operator_index++;
+    expect_value = true;
   }
 
-  if (!numbers.empty()) {
-    result = numbers.back();
-    numbers.pop_back();
+  if (number_index != numbers.size() || operator_index != operators.size()) {
+    throw std::runtime_error("Invalid expression.");
   }
 
-  return result;
+  while (!op_stack.empty()) {
+    if (op_stack.back() == "(")
+      throw std::runtime_error("Parenthesis mismatch.");
+
+    apply_operator(op_stack.back());
+    op_stack.pop_back();
+  }
+
+  if (values.size() != 1)
+    throw std::runtime_error("Invalid expression.");
+
+  return values.back();
 }
 
 } // namespace calqi

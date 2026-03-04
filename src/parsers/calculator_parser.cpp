@@ -1,5 +1,5 @@
 
-#include <algorithm>
+#include <cctype>
 #include <string>
 #include <vector>
 
@@ -30,8 +30,8 @@ void parseExpression(const std::string &expression,
       check_bracket.pop_back();
     }
 
-    if (std::isalpha(ch)) {
-      if (std::isdigit(previous_character))
+    if (std::isalpha(static_cast<unsigned char>(ch))) {
+      if (std::isdigit(static_cast<unsigned char>(previous_character)))
         operators.push_back("*");
 
       function += ch;
@@ -39,7 +39,7 @@ void parseExpression(const std::string &expression,
       continue;
     }
 
-    if (std::isdigit(ch) || ch == '.') {
+    if (std::isdigit(static_cast<unsigned char>(ch)) || ch == '.') {
       number += ch;
       previous_character = ch;
       continue;
@@ -61,7 +61,8 @@ void parseExpression(const std::string &expression,
         function.clear();
       }
 
-      if ((previous_character == ')' || std::isdigit(previous_character)) &&
+      if ((previous_character == ')' ||
+           std::isdigit(static_cast<unsigned char>(previous_character))) &&
           ch == '(')
         operators.push_back("*");
 
@@ -99,9 +100,6 @@ void parseExpression(const std::string &expression,
       operators.push_back(function);
     }
   }
-
-  std::reverse(numbers.begin(), numbers.end());
-  std::reverse(operators.begin(), operators.end());
 }
 
 } // namespace calqi
