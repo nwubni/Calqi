@@ -2,8 +2,11 @@
 #include <cmath>
 #include <iomanip>
 #include <iostream>
-#include <readline/history.h>
+#include <iomanip>
 #include <readline/readline.h>
+#include <readline/history.h>
+#include <sstream>
+#include <string>
 #include <vector>
 
 #include "library/calculator_functions.h"
@@ -52,7 +55,10 @@ int main(int arg, char **argv) {
       }
 
       add_history(expression.c_str());
-      add_history(std::to_string(result).c_str());
+      
+      std::ostringstream oss;
+      oss << std::setprecision(15) << result;
+      add_history(oss.str().c_str());
 
       std::cout << "\nAnswer: " << result << "\n";
     }
