@@ -52,6 +52,7 @@ int main(int arg, char **argv) {
       }
 
       add_history(expression.c_str());
+      add_history(std::to_string(result).c_str());
 
       std::cout << "\nAnswer: " << result << "\n";
     }
